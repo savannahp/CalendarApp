@@ -10,11 +10,4 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
-    // This is Paul's comment to test GitHub
-    //sav is cooler than paul
-    // ^ that is a lie.
-    //who will win the push war? The world may never know
-    // Chu ar da winnar, chu are de champion
-    //I need more sleeppp
-    // help me obi-wan-kenobi
 }
