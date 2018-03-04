@@ -16,6 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".CalendarMain" />
+        <activity android:name=".DayActivity" />
+        <activity android:name=".WeekActivity"></activity>
     </application>
 
 </manifest>

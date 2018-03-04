@@ -8,8 +8,6 @@ import java.util.Date;
 
 public class Task {
 
-    Date dueDate;
-
     public void setCompleted(boolean b) {
 
     }
