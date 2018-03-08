@@ -19,6 +19,8 @@
         <activity android:name=".CalendarMain" />
         <activity android:name=".DayActivity" />
         <activity android:name=".WeekActivity"></activity>
+        <activity android:name=".MonthActivity" />
+        <activity android:name=".HomeActivity" />
     </application>
 
 </manifest>
