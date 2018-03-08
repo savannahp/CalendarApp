@@ -21,18 +21,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CalendarMain" />
+        <activity android:name=".MonthActivity" />
         <activity android:name=".DayActivity" />
-<<<<<<< HEAD
         <activity android:name=".WeekActivity" />
-        <activity android:name=".TaskMainActivity" />
+        <activity android:name=".ListMainActivity" />
         <activity android:name=".SingleListActivity" />
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".ProfileActivity"></activity>
->>>>>>> eb485ee019600cc51f881eafcd6b7d580c928bf0
     </application>
 
 </manifest>
