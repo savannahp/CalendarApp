@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "509575208869",
+    "firebase_url": "https://calendarapp-a252a.firebaseio.com",
+    "project_id": "calendarapp-a252a",
+    "storage_bucket": "calendarapp-a252a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509575208869:android:0d3d257427343118",
+        "android_client_info": {
+          "package_name": "teamproject.savannahpyle.calendarapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "509575208869-ahtvuaakegck46010b33ovuce89eounf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHqjXHEmO5TiXZw0A9ym5_uzFAWYSZlqs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
