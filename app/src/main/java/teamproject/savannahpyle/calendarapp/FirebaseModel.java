@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
@@ -17,10 +18,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FirebaseModel extends AppCompatActivity {
-
+    private static final String TAG = "FirebaseModel";
     private static final int RC_SIGN_IN = 123;
-
     private FirebaseUser user;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,8 @@ public class FirebaseModel extends AppCompatActivity {
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build());
 
+        //Logs
+        Log.i(TAG, "Starting Login Activity");
         // Create and launch sign-in intent
         startActivityForResult(
                 AuthUI.getInstance()
@@ -43,6 +47,7 @@ public class FirebaseModel extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        Log.i(TAG, "Starting OnActivityResult");
         if (requestCode == RC_SIGN_IN) {
             IdpResponse response = IdpResponse.fromResultIntent(data);
 
@@ -50,11 +55,13 @@ public class FirebaseModel extends AppCompatActivity {
                 // Successfully signed in
                 this.user = FirebaseAuth.getInstance().getCurrentUser();
 
+                Log.i(TAG, "User Successfully signed in");
                 // Start the HomeActivity
                 Context context = new ContextWrapper(getApplicationContext());
                 Intent intent = new Intent(this, HomeActivity.class);
                 startActivity(intent);
             } else {
+                Log.i(TAG, "User unable to sign in");
                 // Sign in failed, check response for error code TODO
             }
         }
