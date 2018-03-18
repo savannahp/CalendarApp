@@ -1,5 +1,8 @@
 package teamproject.savannahpyle.calendarapp;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import org.junit.Test;
 
 import java.util.Date;
@@ -24,14 +27,14 @@ public class CalendarAppTests {
 
     @Test
     public void UserIsNotNull() {
-        User user = new User();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         assertNotNull(user);
     }
 
     @Test
     public void TaskIsDeletedAfterThreeDaysOfBeingCompleted() {
         Task task = new Task();
-        task.setCompleted(true);
+        task.setComplete(true);
 
         task.setNumDaysCompleted(4);
 

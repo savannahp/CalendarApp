@@ -14,21 +14,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FirebaseModel">
+        <activity android:name=".HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MonthActivity" />
         <activity android:name=".DayActivity" />
         <activity android:name=".WeekActivity" />
         <activity android:name=".ListMainActivity" />
         <activity android:name=".SingleListActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".HomeActivity" />
+        <activity android:name=".MonthActivity" />
     </application>
 
 </manifest>
