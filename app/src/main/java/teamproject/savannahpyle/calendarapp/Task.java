@@ -13,8 +13,7 @@ public class Task {
 
     private String description;
     private String listName;
-    private Set<Tag> tags;
-    private List<Task> subtasks;
+    private List<Task> subtasks; // TODO: Make so only one level of subtasks possible
     private boolean isComplete = false;
     private GregorianCalendar dueDate;
 
@@ -28,9 +27,6 @@ public class Task {
         this.listName = listName;
     }
 
-    public void addTag(Tag tag) {
-        tags.add(tag);
-    }
 
     // Setters
     public void setDescription(String description) {
@@ -38,9 +34,6 @@ public class Task {
     }
     public void setListName(String listName) {
         this.listName = listName;
-    }
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
     }
     public void setSubtasks(List<Task> subtasks) {
         this.subtasks = subtasks;
@@ -59,9 +52,6 @@ public class Task {
     }
     public String getListName() {
         return listName;
-    }
-    public Set<Tag> getTags() {
-        return tags;
     }
     public List<Task> getSubtasks() {
         return subtasks;

@@ -29,20 +29,23 @@ import java.util.Set;
  * @author Paul Land
  */
 
-public class ListModel {
 
+public class ListModel {
+    
     // Strings for identifying log messages and also organizing things in the database
     private static final String TAG = "ListModel";
     private static final String TASK_BY_LIST = "TaskByList";
-    private static final String TASK_BY_TAG = "TaskByTag";
     private static final String LISTS = "Lists";
-    private static final String TAGS= "Tags";
 
     // These hold the to-do list data
     private Map<String, List<Task>> tasksByList = new HashMap<>();
-    private Map<String, List<Task>> tasksByTag = new HashMap<>();
     private Set<String> lists = new HashSet<>();
-    private Set<String> tags = new HashSet<>();
+
+    // Priority levels 1. no priority 2. ! 3. !!
+
+    // Sort by due date, by priority level, by overdue
+    // Delete completed tasks option/button
+
 
     // For accessing the database
     private DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
@@ -57,17 +60,9 @@ public class ListModel {
             tasksByList = dataSnapshot.child(user.getUid()).child(TAG).child(TASK_BY_LIST).getValue(Map.class);
             Log.d(TAG, TASK_BY_LIST + " updated");
 
-            Log.d(TAG, "Preparing to update " + TASK_BY_TAG);
-            tasksByTag = dataSnapshot.child(user.getUid()).child(TAG).child(TASK_BY_TAG).getValue(Map.class);
-            Log.d(TAG, TASK_BY_TAG + " updated");
-
             Log.d(TAG, "Preparing to update " + LISTS);
             lists = dataSnapshot.child(user.getUid()).child(TAG).child(LISTS).getValue(Set.class);
             Log.d(TAG, LISTS + " updated");
-
-            Log.d(TAG, "Preparing to update " + TAGS);
-            tags = dataSnapshot.child(user.getUid()).child(TAG).child(TAGS).getValue(Set.class);
-            Log.d(TAG, TAGS + " updated");
         }
 
         @Override
@@ -77,7 +72,7 @@ public class ListModel {
         }
     };
 
-    // Default constructor with no args required for Firebase Database
+    /** Default constructor with no args required for Firebase Database */
     public ListModel() {
 
         // Add the database listeners (I hope this works here **fingers crossed**)
@@ -86,11 +81,9 @@ public class ListModel {
     }
 
     /**
-     * Add Task
+     * Add a task to its corresponding list
      *
-     * Adds a task to its corresponding list
-     *
-     * @param newTask the new task to be added to a list
+     * @param newTask the new task to be added to a list, tasks have member variable for list name
      */
     public void addTask(Task newTask) {
 
@@ -100,18 +93,10 @@ public class ListModel {
 
         // Add the new task to the list
         taskList.add(newTask);
-
-        // For loop to add new tags to our taskByTag map
-        for(Tag t : newTask.getTags()) {
-            addTag(t);
-            tasksByTag.get(t.getTagName()).add(newTask);
-        }
     }
 
     /**
-     * Add List
-     *
-     * This function adds a new to do list for the user.
+     * Adds a new to-do list for the user.
      *
      * @param listName The name of the list to be created
      */
@@ -124,25 +109,7 @@ public class ListModel {
             tasksByList.put(listName, new ArrayList<Task>());
             // ...update branch under users with unique user ID and add tasksByList for that user
             databaseRef.child(user.getUid()).child(TAG).child(TASK_BY_LIST).setValue(tasksByList);
-        }
-    }
-
-    /**
-     * Add tag
-     *
-     * This function adds a tag to our model and database
-     *
-     * @param tag The tag to be added
-     */
-    public void addTag(Tag tag) {
-        // If taskByTag doesn't contain the tag name...
-        if (!tasksByTag.containsKey(tag.getTagName())) {
-            // ...add the tag name to the set of all tags
-            tags.add(tag.getTagName());
-            // ...add the tag to our tasksByTag map
-            tasksByTag.put(tag.getTagName(), new ArrayList<Task>());
-            // ...update the database
-            databaseRef.child(user.getUid()).child(TAG).child(TAGS).setValue(tags);
+            databaseRef.child(user.getUid()).child(TAG).child(LISTS).setValue(lists);
         }
     }
 
@@ -159,24 +126,8 @@ public class ListModel {
         return tasksByList.get(list);
     }
 
-    public Map<String, List<Task>> getTasksByTag() {
-        return tasksByTag;
-    }
-
-    public List<Task> getTasksByTag(Tag tag) {
-        return tasksByTag.get(tag.getTagName());
-    }
-
-    public List<Task> getTasksByTag(String tag) {
-        return tasksByTag.get(tag);
-    }
-
     public Set<String> getLists() {
         return lists;
-    }
-
-    public Set<String> getTags() {
-        return tags;
     }
 
     // Setters
@@ -184,15 +135,7 @@ public class ListModel {
         this.tasksByList = tasksByList;
     }
 
-    public void setTasksByTag(Map<String, List<Task>> tasksByTag) {
-        this.tasksByTag = tasksByTag;
-    }
-
     public void setLists(Set<String> lists) {
         this.lists = lists;
-    }
-
-    public void setTags(Set<String> tags) {
-        this.tags = tags;
     }
 }
