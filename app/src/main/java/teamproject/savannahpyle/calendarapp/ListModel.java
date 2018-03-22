@@ -31,6 +31,8 @@ import java.util.Set;
 
 
 public class ListModel {
+
+    private volatile ListModel instance;
     
     // Strings for identifying log messages and also organizing things in the database
     private static final String TAG = "ListModel";
@@ -73,13 +75,23 @@ public class ListModel {
     };
 
     /** Default constructor with no args required for Firebase Database */
-    public ListModel() {
+    private ListModel() {
 
         // Add the database listeners (I hope this works here **fingers crossed**)
         databaseRef.addValueEventListener(postListener);
 
     }
 
+    public ListModel getInstance() {
+        if (instance == null) {
+            synchronized (this) {
+                if (instance == null) {
+                    instance = new ListModel();
+                }
+            }
+        }
+        return instance;
+    }
     /**
      * Add a task to its corresponding list
      *
