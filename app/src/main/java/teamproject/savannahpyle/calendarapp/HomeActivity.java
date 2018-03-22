@@ -45,16 +45,16 @@ public class HomeActivity extends AppCompatActivity {
                         .build(),
                 RC_SIGN_IN);
 
-        Context context = new ContextWrapper(getApplicationContext());
-
-        // Load the preferences
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String activity = preferences.getString(KEY_ACTIVITY, "No saved state");
-
-        if (activity.equals("MonthActivity")) {
-            Intent intent = new Intent(this, MonthActivity.class);
-            startActivity(intent);
-        }
+//        Context context = new ContextWrapper(getApplicationContext());
+//
+//        // Load the preferences
+//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+//        String activity = preferences.getString(KEY_ACTIVITY, "No saved state");
+//
+//        if (activity.equals("MonthActivity")) {
+//            Intent intent = new Intent(this, MonthActivity.class);
+//            startActivity(intent);
+//        }
     }
 
     @Override

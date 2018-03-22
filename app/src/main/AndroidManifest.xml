@@ -20,13 +20,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DayActivity" />
-        <activity android:name=".WeekActivity" />
-        <activity android:name=".ListMainActivity" />
-        <activity android:name=".SingleListActivity" />
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".MonthActivity" />
     </application>
 
 </manifest>
