@@ -32,7 +32,7 @@ import java.util.Set;
 
 public class ListModel {
 
-    private volatile ListModel instance;
+    private static volatile ListModel instance;
     
     // Strings for identifying log messages and also organizing things in the database
     private static final String TAG = "ListModel";
@@ -82,9 +82,9 @@ public class ListModel {
 
     }
 
-    public ListModel getInstance() {
+    public static ListModel getInstance() {
         if (instance == null) {
-            synchronized (this) {
+            synchronized (ListModel.class) {
                 if (instance == null) {
                     instance = new ListModel();
                 }
