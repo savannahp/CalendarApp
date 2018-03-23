@@ -39,9 +39,11 @@ public class ListModel {
     private static final String TASK_BY_LIST = "TaskByList";
     private static final String LISTS = "Lists";
 
+    //------------------------------------------------------------
     // These hold the to-do list data
     private Map<String, List<Task>> tasksByList = new HashMap<>();
     private Set<String> lists = new HashSet<>();
+    //------------------------------------------------------------
 
     // Priority levels 1. no priority 2. ! 3. !!
 
