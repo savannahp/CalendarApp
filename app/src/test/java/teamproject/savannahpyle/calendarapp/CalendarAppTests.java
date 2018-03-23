@@ -31,17 +31,17 @@ public class CalendarAppTests {
         assertNotNull(user);
     }
 
-    @Test
-    public void TaskIsDeletedAfterThreeDaysOfBeingCompleted() {
-        Task task = new Task();
-        task.setComplete(true);
-
-        task.setNumDaysCompleted(4);
-
-        task.update();
-
-        assertEquals(null, task);
-    }
+//    @Test
+//    public void TaskIsDeletedAfterThreeDaysOfBeingCompleted() {
+//        Task task = new Task();
+//        task.setComplete(true);
+//
+//        task.setNumDaysCompleted(4);
+//
+//        task.update();
+//
+//        assertEquals(null, task);
+//    }
 
     @Test
     public void EventDateIsCurrentDateOrGreater() {

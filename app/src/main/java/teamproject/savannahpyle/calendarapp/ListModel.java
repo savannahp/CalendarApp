@@ -10,12 +10,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by paulland on 3/16/18.
@@ -28,90 +26,93 @@ import java.util.Set;
  *
  * @author Paul Land
  */
-
-
 public class ListModel {
 
+    // For the singleton pattern
     private static volatile ListModel instance;
     
-    // Strings for identifying log messages and also organizing things in the database
+    // Log message tag
     private static final String TAG = "ListModel";
-    private static final String TASK_BY_LIST = "TaskByList";
+
+    // Tags for member variables to use with database
+    private static final String TASK_LISTS = "TaskLists";
     private static final String LISTS = "Lists";
 
-    //------------------------------------------------------------
     // These hold the to-do list data
-    private Map<String, List<Task>> tasksByList = new HashMap<>();
-    private Set<String> lists = new HashSet<>();
-    //------------------------------------------------------------
+    private Map<String, TaskList> taskLists = new HashMap<>();
+    private Set<String> lists = new TreeSet<>();
 
-    // Priority levels 1. no priority 2. ! 3. !!
-
+    // TODO: add these features to the list
     // Sort by due date, by priority level, by overdue
     // Delete completed tasks option/button
 
+    // For accessing the Firebase Database
+    private DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-    // For accessing the database
-//    private DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
-//    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-    // Listener for changes in the database
-//    ValueEventListener postListener = new ValueEventListener() {
-//        @Override
-//        @SuppressWarnings("unchecked")
-//        public void onDataChange(DataSnapshot dataSnapshot) {
-//            Log.d(TAG, "Preparing to update " + TASK_BY_LIST);
-//            tasksByList = dataSnapshot.child(user.getUid()).child(TAG).child(TASK_BY_LIST).getValue(Map.class);
-//            Log.d(TAG, TASK_BY_LIST + " updated");
-//
-//            Log.d(TAG, "Preparing to update " + LISTS);
-//            lists = dataSnapshot.child(user.getUid()).child(TAG).child(LISTS).getValue(Set.class);
-//            Log.d(TAG, LISTS + " updated");
-//        }
-//
-//        @Override
-//        public void onCancelled(DatabaseError databaseError) {
-//            // Getting Post failed, log a message
-//            Log.w(TAG, "onCancelled", databaseError.toException());
-//        }
-//    };
-
-    /** Default constructor with no args required for Firebase Database */
+    /**
+     * Default constructor with no args required for Firebase Database.
+     * Initializes listener for list model and adds it to even listeners.
+     */
     private ListModel() {
 
-        // Add the database listeners (I hope this works here **fingers crossed**)
-//        databaseRef.addValueEventListener(postListener);
+        // Listener for changes in the database
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            @SuppressWarnings("unchecked")
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "Preparing to update " + TASK_LISTS);
+                taskLists = dataSnapshot.child(user.getUid()).child(TAG).child(TASK_LISTS).getValue(Map.class);
+                Log.d(TAG, TASK_LISTS + " updated");
 
+                Log.d(TAG, "Preparing to update " + LISTS);
+                lists = dataSnapshot.child(user.getUid()).child(TAG).child(LISTS).getValue(Set.class);
+                Log.d(TAG, LISTS + " updated");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "onCancelled", databaseError.toException());
+            }
+        };
+
+        // Add the database listeners (I hope this works here *fingers crossed*)
+        databaseRef.addValueEventListener(postListener);
     }
 
+    /**
+     * Gets the list model instance.
+     *
+     * @return The singleton instance of the list model
+     */
     public static ListModel getInstance() {
         Log.d(TAG, "Getting ListModel instance");
+
+        // Double-checked-lazy singleton
         if (instance == null) {
             Log.d(TAG, "Instance was NULL");
             synchronized (ListModel.class) {
                 if (instance == null) {
                     Log.d(TAG, "Initializing the singleton ListModel");
                     instance = new ListModel();
-                    Log.d(TAG, "Intance intialized successfully");
+                    Log.d(TAG, "Instance initialized successfully");
                 }
             }
         }
         Log.d(TAG, "Returning instance");
         return instance;
     }
+
     /**
-     * Add a task to its corresponding list
+     * Add a task to a list using the the TaskList's addTask()
+     * function.
      *
-     * @param newTask the new task to be added to a list, tasks have member variable for list name
+     * @param listName The name of the list to add task to
+     * @param description Description of the task
      */
-    public void addTask(Task newTask) {
-
-        // Get the list to be added to
-        List<Task> taskList = getTasksByList(newTask.getListName());
-        // If list does not exist yet, getTaskByList() creates it
-
-        // Add the new task to the list
-        taskList.add(newTask);
+    public void addTask(String listName, String description) {
+        taskLists.get(listName).addTask(description);
     }
 
     /**
@@ -120,40 +121,59 @@ public class ListModel {
      * @param listName The name of the list to be created
      */
     public void addList(String listName) {
-        // If tasksByList doesn't contain the listName...
-        if (!tasksByList.containsKey(listName)) {
-            // ...add the list name to the set of all list names
+        // If taskLists doesn't contain the listName...
+        if (!taskLists.containsKey(listName)) {
+            TaskList taskList = new TaskList(listName);
             lists.add(listName);
-            // ...create a new to-do list and put it in our map
-            tasksByList.put(listName, new ArrayList<Task>());
+            taskLists.put(listName, taskList);
             // ...update branch under users with unique user ID and add tasksByList for that user
-//            databaseRef.child(user.getUid()).child(TAG).child(TASK_BY_LIST).setValue(tasksByList);
-//            databaseRef.child(user.getUid()).child(TAG).child(LISTS).setValue(lists);
+            databaseRef.child(user.getUid()).child(TAG).child(TASK_LISTS).setValue(taskLists);
+            databaseRef.child(user.getUid()).child(TAG).child(LISTS).setValue(lists);
         }
     }
 
-    // Getters
-    public Map<String, List<Task>> getTasksByList() {
-        return tasksByList;
+    /**
+     * Get a specific TaskList by its name as the key
+     *
+     * @param listNameKey The name of the list to be returned
+     * @return A TaskList or null if that key is not in TaskList map
+     */
+    public TaskList getTaskList(String listNameKey) {
+        return taskLists.get(listNameKey);
     }
 
-    public List<Task> getTasksByList(String list) {
-
-        // If the list has not been created, create the list
-        if (!tasksByList.containsKey(list))
-            addList(list);
-        return tasksByList.get(list);
+    /**
+     * Gets the TaskLists map. Mainly for use by Firebase Database.
+     *
+     * @return The map of TaskLists (String key, TaskList value)
+     */
+    public Map<String, TaskList> getTaskLists() {
+        return taskLists;
     }
 
+    /**
+     * Sets the TaskList map. Mainly for use by Firebase Database.
+     *
+     * @param taskLists Map of TaskLists (String key, TaskList value)
+     */
+    public void setTaskLists(Map<String, TaskList> taskLists) {
+        this.taskLists = taskLists;
+    }
+
+    /**
+     * Gets the set of all TaskList names in model.
+     *
+     * @return Set of all TaskList names.
+     */
     public Set<String> getLists() {
         return lists;
     }
 
-    // Setters
-    public void setTasksByList(Map<String, List<Task>> tasksByList) {
-        this.tasksByList = tasksByList;
-    }
-
+    /**
+     * Set the set of all TaskList names in model.
+     *
+     * @param lists Set of TaskList names.
+     */
     public void setLists(Set<String> lists) {
         this.lists = lists;
     }

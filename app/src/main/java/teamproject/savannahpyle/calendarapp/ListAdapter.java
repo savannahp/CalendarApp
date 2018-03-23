@@ -14,10 +14,11 @@ import java.util.Set;
  *
  * The list adapter helps control the view of a to-do list.
  */
-
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
-    // Holds the data to fill list with
+    /**
+     * For holding all of our data
+     */
     private List<String> mDataset = new ArrayList<>();
 
     /**
@@ -39,6 +40,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         mDataset.addAll(listNames);
     }
 
+    /**
+     * Creates and returns a {@link ViewHolder}
+     * @param parent The parent View
+     * @param viewType Integer that specified the type of view
+     * @return A new {@link ViewHolder}
+     */
     @Override
     public ListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         TextView v = (TextView) LayoutInflater.from(parent.getContext())
@@ -49,6 +56,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         return new ViewHolder(v);
     }
 
+    /**
+     * Binds data from our data set to the view
+     *
+     * @param holder {@link ViewHolder} to bind to
+     * @param position The index of the data in the list
+     */
     @Override
     public void onBindViewHolder(ListAdapter.ViewHolder holder, int position) {
         // - get element from your dataset at this position
