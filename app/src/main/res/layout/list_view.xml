@@ -7,7 +7,15 @@
         android:id="@+id/my_recycler_view"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/row_padding_vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/row_padding_vertical"
+        android:orientation="vertical"
+        android:textStyle="bold"
+        android:textSize="16dp"/>
+
 
 </android.support.constraint.ConstraintLayout>
 
