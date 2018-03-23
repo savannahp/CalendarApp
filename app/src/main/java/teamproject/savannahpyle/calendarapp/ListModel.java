@@ -52,46 +52,51 @@ public class ListModel {
 
 
     // For accessing the database
-    private DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
-    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//    private DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
+//    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     // Listener for changes in the database
-    ValueEventListener postListener = new ValueEventListener() {
-        @Override
-        @SuppressWarnings("unchecked")
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            Log.d(TAG, "Preparing to update " + TASK_BY_LIST);
-            tasksByList = dataSnapshot.child(user.getUid()).child(TAG).child(TASK_BY_LIST).getValue(Map.class);
-            Log.d(TAG, TASK_BY_LIST + " updated");
-
-            Log.d(TAG, "Preparing to update " + LISTS);
-            lists = dataSnapshot.child(user.getUid()).child(TAG).child(LISTS).getValue(Set.class);
-            Log.d(TAG, LISTS + " updated");
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-            // Getting Post failed, log a message
-            Log.w(TAG, "onCancelled", databaseError.toException());
-        }
-    };
+//    ValueEventListener postListener = new ValueEventListener() {
+//        @Override
+//        @SuppressWarnings("unchecked")
+//        public void onDataChange(DataSnapshot dataSnapshot) {
+//            Log.d(TAG, "Preparing to update " + TASK_BY_LIST);
+//            tasksByList = dataSnapshot.child(user.getUid()).child(TAG).child(TASK_BY_LIST).getValue(Map.class);
+//            Log.d(TAG, TASK_BY_LIST + " updated");
+//
+//            Log.d(TAG, "Preparing to update " + LISTS);
+//            lists = dataSnapshot.child(user.getUid()).child(TAG).child(LISTS).getValue(Set.class);
+//            Log.d(TAG, LISTS + " updated");
+//        }
+//
+//        @Override
+//        public void onCancelled(DatabaseError databaseError) {
+//            // Getting Post failed, log a message
+//            Log.w(TAG, "onCancelled", databaseError.toException());
+//        }
+//    };
 
     /** Default constructor with no args required for Firebase Database */
     private ListModel() {
 
         // Add the database listeners (I hope this works here **fingers crossed**)
-        databaseRef.addValueEventListener(postListener);
+//        databaseRef.addValueEventListener(postListener);
 
     }
 
     public static ListModel getInstance() {
+        Log.d(TAG, "Getting ListModel instance");
         if (instance == null) {
+            Log.d(TAG, "Instance was NULL");
             synchronized (ListModel.class) {
                 if (instance == null) {
+                    Log.d(TAG, "Initializing the singleton ListModel");
                     instance = new ListModel();
+                    Log.d(TAG, "Intance intialized successfully");
                 }
             }
         }
+        Log.d(TAG, "Returning instance");
         return instance;
     }
     /**
@@ -122,8 +127,8 @@ public class ListModel {
             // ...create a new to-do list and put it in our map
             tasksByList.put(listName, new ArrayList<Task>());
             // ...update branch under users with unique user ID and add tasksByList for that user
-            databaseRef.child(user.getUid()).child(TAG).child(TASK_BY_LIST).setValue(tasksByList);
-            databaseRef.child(user.getUid()).child(TAG).child(LISTS).setValue(lists);
+//            databaseRef.child(user.getUid()).child(TAG).child(TASK_BY_LIST).setValue(tasksByList);
+//            databaseRef.child(user.getUid()).child(TAG).child(LISTS).setValue(lists);
         }
     }
 

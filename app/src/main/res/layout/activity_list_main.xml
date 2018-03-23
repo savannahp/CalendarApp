@@ -1,9 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<!-- A RecyclerView with some commonly used attributes -->
+<android.support.v7.widget.RecyclerView android:id="@+id/my_recycler_view"
+    android:scrollbars="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="teamproject.savannahpyle.calendarapp.ListMainActivity">
+    android:paddingBottom="@dimen/row_padding_vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/row_padding_vertical"
+    android:orientation="vertical"
+    android:textStyle="bold"
+    android:textSize="16dp"
+    xmlns:android="http://schemas.android.com/apk/res/android" />
+<!--<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--tools:context="teamproject.savannahpyle.calendarapp.ListMainActivity">-->
 
-</android.support.constraint.ConstraintLayout>
+     <!--&lt;!&ndash;A RecyclerView with some commonly used attributes &ndash;&gt;-->
+    <!--&lt;!&ndash;<android.support.v7.widget.RecyclerView&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/my_recycler_view"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:scrollbars="vertical"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:paddingBottom="@dimen/row_padding_vertical"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:paddingLeft="@dimen/activity_horizontal_margin"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:paddingRight="@dimen/activity_horizontal_margin"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:paddingTop="@dimen/row_padding_vertical"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:orientation="vertical"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textStyle="bold"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textSize="16dp"/>&ndash;&gt;-->
+
+<!--</android.support.constraint.ConstraintLayout>-->
