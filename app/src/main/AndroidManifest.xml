@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ListMainActivity">
+        <activity android:name=".DayEvents">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,7 +22,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".HomeActivity" />
-        <activity android:name=".SingleListActivity"></activity>
+        <activity android:name=".SingleListActivity" />
+        <activity android:name=".ListMainActivity" />
+        <activity android:name=".MonthActivity"></activity>
     </application>
-
+'
 </manifest>
