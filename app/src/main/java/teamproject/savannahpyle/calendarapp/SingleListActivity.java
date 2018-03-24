@@ -5,17 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.util.Log;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
-public class ListMainActivity extends AppCompatActivity {
-    private final String TAG = "ListMainActivity";
-    public static final String EXTRA_MESSAGE = "teamproject.savannahpyle.calendarapp: ListMainActivity";
+public class SingleListActivity extends AppCompatActivity {
 
+    private static final String TAG = "SingleListActivity";
+    private TaskList taskList;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -23,14 +20,18 @@ public class ListMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_main);
+        setContentView(R.layout.activity_single_list);
 
+        Intent intent = getIntent();
+        String listName = intent.getStringExtra(ListMainActivity.EXTRA_MESSAGE);
+
+        Log.d(TAG, listName);
         ListModel listModel = ListModel.getInstance();
 
-        // Fake data to test with
+        this.taskList = listModel.getTaskList(listName);
 
-        for (Integer i = 0; i <= 20; i++) {
-            listModel.addList("List " + i.toString());
+        for (Integer i = 1; i <= 20; i++) {
+            taskList.addTask(listName + " Task " + i.toString());
         }
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
@@ -44,17 +45,7 @@ public class ListMainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new ListAdapter(listModel.getLists());
+        mAdapter = new ListAdapter(this.taskList.getTasksAsStrings());
         mRecyclerView.setAdapter(mAdapter);
-
-    }
-
-    public void goToSingleList(View view) {
-        Button button = (Button) view;
-        String listName = (String) button.getText();
-
-        Intent intent = new Intent(this, SingleListActivity.class);
-        intent.putExtra(EXTRA_MESSAGE, listName);
-        startActivity(intent);
     }
 }

@@ -14,7 +14,16 @@ import java.util.List;
 public class TaskList {
 
     private String listName;
+    private List<String> tasksAsStrings = new ArrayList<>();
     private List<Task> tasks = new ArrayList<>();
+
+    public List<String> getTasksAsStrings() {
+        return tasksAsStrings;
+    }
+
+    public void setTasksAsStrings(List<String> tasksAsStrings) {
+        this.tasksAsStrings = tasksAsStrings;
+    }
 
     /**
      * Default constructor with no arguments for Firebase use.
@@ -32,6 +41,10 @@ public class TaskList {
     public TaskList(String listName, List<Task> task) {
         this.listName = listName;
         this.tasks = task;
+
+        for (Task t : this.tasks) {
+            tasksAsStrings.add(t.getDescription());
+        }
     }
 
     /**
@@ -51,6 +64,7 @@ public class TaskList {
     public void addTask(String Description) {
         Task task = new Task(this, Description);
         tasks.add(task);
+        tasksAsStrings.add(Description);
     }
 
     /**
@@ -62,6 +76,7 @@ public class TaskList {
         // Remove the task if it exists
         if(tasks.contains(task)) {
             tasks.remove(task);
+            tasksAsStrings.remove(task.getDescription());
         }
     }
 
@@ -79,7 +94,7 @@ public class TaskList {
      *
      * @return The list of tasks for this to-do list
      */
-    public List<Task> getTask() {
+    public List<Task> getTasks() {
         return tasks;
     }
 

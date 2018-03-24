@@ -3,6 +3,7 @@ package teamproject.savannahpyle.calendarapp;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -25,8 +26,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
      * Our custom ViewHolder
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTextView;
-        public ViewHolder(TextView v) {
+        public Button mTextView;
+        public ViewHolder(Button v) {
             super(v);
             mTextView = v;
         }
@@ -39,6 +40,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     public ListAdapter(Set<String> listNames) {
         mDataset.addAll(listNames);
     }
+    public ListAdapter(List<String> listNames) {
+        mDataset.addAll(listNames);
+    }
+
 
     /**
      * Creates and returns a {@link ViewHolder}
@@ -48,8 +53,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
      */
     @Override
     public ListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        TextView v = (TextView) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.task_list_text_view, parent, false);
+        Button v = (Button) LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.button_list_select, parent, false);
 
         // TODO: Do we need to add anything here?
 

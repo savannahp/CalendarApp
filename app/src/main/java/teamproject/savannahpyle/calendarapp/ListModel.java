@@ -46,40 +46,40 @@ public class ListModel {
     // Sort by due date, by priority level, by overdue
     // Delete completed tasks option/button
 
-    // For accessing the Firebase Database
-    private DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
-    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-    /**
-     * Default constructor with no args required for Firebase Database.
-     * Initializes listener for list model and adds it to even listeners.
-     */
-    private ListModel() {
-
-        // Listener for changes in the database
-        ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            @SuppressWarnings("unchecked")
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "Preparing to update " + TASK_LISTS);
-                taskLists = dataSnapshot.child(user.getUid()).child(TAG).child(TASK_LISTS).getValue(Map.class);
-                Log.d(TAG, TASK_LISTS + " updated");
-
-                Log.d(TAG, "Preparing to update " + LISTS);
-                lists = dataSnapshot.child(user.getUid()).child(TAG).child(LISTS).getValue(Set.class);
-                Log.d(TAG, LISTS + " updated");
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "onCancelled", databaseError.toException());
-            }
-        };
-
-        // Add the database listeners (I hope this works here *fingers crossed*)
-        databaseRef.addValueEventListener(postListener);
-    }
+//    // For accessing the Firebase Database
+//    private DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
+//    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//
+//    /**
+//     * Default constructor with no args required for Firebase Database.
+//     * Initializes listener for list model and adds it to even listeners.
+//     */
+//    private ListModel() {
+//
+//        // Listener for changes in the database
+//        ValueEventListener postListener = new ValueEventListener() {
+//            @Override
+//            @SuppressWarnings("unchecked")
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                Log.d(TAG, "Preparing to update " + TASK_LISTS);
+//                taskLists = dataSnapshot.child(user.getUid()).child(TAG).child(TASK_LISTS).getValue(Map.class);
+//                Log.d(TAG, TASK_LISTS + " updated");
+//
+//                Log.d(TAG, "Preparing to update " + LISTS);
+//                lists = dataSnapshot.child(user.getUid()).child(TAG).child(LISTS).getValue(Set.class);
+//                Log.d(TAG, LISTS + " updated");
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                // Getting Post failed, log a message
+//                Log.w(TAG, "onCancelled", databaseError.toException());
+//            }
+//        };
+//
+//        // Add the database listeners (I hope this works here *fingers crossed*)
+//        databaseRef.addValueEventListener(postListener);
+//    }
 
     /**
      * Gets the list model instance.
@@ -127,8 +127,8 @@ public class ListModel {
             lists.add(listName);
             taskLists.put(listName, taskList);
             // ...update branch under users with unique user ID and add tasksByList for that user
-            databaseRef.child(user.getUid()).child(TAG).child(TASK_LISTS).setValue(taskLists);
-            databaseRef.child(user.getUid()).child(TAG).child(LISTS).setValue(lists);
+//            databaseRef.child(user.getUid()).child(TAG).child(TASK_LISTS).setValue(taskLists);
+//            databaseRef.child(user.getUid()).child(TAG).child(LISTS).setValue(lists);
         }
     }
 
