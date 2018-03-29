@@ -1,36 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- A RecyclerView with some commonly used attributes -->
-<android.support.v7.widget.RecyclerView android:id="@+id/my_recycler_view"
-    android:scrollbars="vertical"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/row_padding_vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/row_padding_vertical"
-    android:orientation="vertical"
-    android:textStyle="bold"
-    android:textSize="16dp"
-    xmlns:android="http://schemas.android.com/apk/res/android" />
-<!--<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--tools:context="teamproject.savannahpyle.calendarapp.ListMainActivity">-->
+    tools:context="teamproject.savannahpyle.calendarapp.ListMainActivity">
 
-     <!--&lt;!&ndash;A RecyclerView with some commonly used attributes &ndash;&gt;-->
-    <!--&lt;!&ndash;<android.support.v7.widget.RecyclerView&ndash;&gt;-->
-        <!--&lt;!&ndash;android:id="@+id/my_recycler_view"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:scrollbars="vertical"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:paddingBottom="@dimen/row_padding_vertical"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:paddingLeft="@dimen/activity_horizontal_margin"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:paddingRight="@dimen/activity_horizontal_margin"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:paddingTop="@dimen/row_padding_vertical"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:orientation="vertical"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:textStyle="bold"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:textSize="16dp"/>&ndash;&gt;-->
+    <include layout="@layout/list_recycler_view" />
 
-<!--</android.support.constraint.ConstraintLayout>-->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.981"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+</android.support.constraint.ConstraintLayout>

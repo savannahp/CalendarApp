@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <Button xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/button2"
+    android:id="@+id/button_list_select"
+    style="@style/Widget.AppCompat.Button.Borderless"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:onClick="goToSingleList"
+    android:textAlignment="viewStart"
+    android:textAllCaps="false"
+    android:textStyle="bold"
     tools:layout_editor_absoluteX="148dp"
     tools:layout_editor_absoluteY="127dp"
     tools:text="List" />

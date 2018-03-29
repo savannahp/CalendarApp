@@ -33,11 +33,12 @@ public class SingleListActivity extends AppCompatActivity {
 
         this.taskList = listModel.getTaskList(listName);
 
+        // Fill list with fake data for testing
         for (Integer i = 1; i <= 20; i++) {
-            taskList.addTask(listName + " Task " + i.toString());
+            taskList.addTask("Task " + i.toString());
         }
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        mRecyclerView = (RecyclerView) findViewById(R.id.list_recycler_view);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -48,7 +49,7 @@ public class SingleListActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new ListAdapter(this.taskList.getTasksAsStrings());
+        mAdapter = new CheckListAdapter(this.taskList.getTasksAsStrings());
         mRecyclerView.setAdapter(mAdapter);
     }
 }

@@ -34,7 +34,7 @@ public class ListMainActivity extends AppCompatActivity {
             listModel.addList("List " + i.toString());
         }
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        mRecyclerView = (RecyclerView) findViewById(R.id.list_recycler_view);
 
         Log.d(TAG, "Recycler view =" + mRecyclerView.toString());
 
