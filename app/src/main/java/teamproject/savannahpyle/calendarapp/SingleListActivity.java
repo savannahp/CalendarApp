@@ -22,10 +22,13 @@ public class SingleListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_list);
 
+        Log.d(TAG, "About to receive intent");
         Intent intent = getIntent();
         String listName = intent.getStringExtra(ListMainActivity.EXTRA_MESSAGE);
+        Log.d(TAG, "Intent received");
 
-        Log.d(TAG, listName);
+        Log.d(TAG, "Name of list: " + listName);
+
         ListModel listModel = ListModel.getInstance();
 
         this.taskList = listModel.getTaskList(listName);

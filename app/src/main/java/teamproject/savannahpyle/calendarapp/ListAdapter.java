@@ -26,10 +26,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
      * Our custom ViewHolder
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public Button mTextView;
+        public Button mButton;
         public ViewHolder(Button v) {
             super(v);
-            mTextView = v;
+            mButton = v;
         }
     }
 
@@ -71,7 +71,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     public void onBindViewHolder(ListAdapter.ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTextView.setText(mDataset.get(position));
+        holder.mButton.setText(mDataset.get(position));
     }
 
     /**
