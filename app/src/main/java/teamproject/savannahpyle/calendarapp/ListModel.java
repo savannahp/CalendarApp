@@ -122,18 +122,15 @@ public class ListModel {
      */
     public void addList(String listName) {
         // If taskLists doesn't contain the listName...
-//        if (!lists.contains(listName)) {
-//            TaskList taskList = new TaskList(listName);
-//            lists.add(listName);
-//            taskLists.put(listName, taskList);
-//            // ...update branch under users with unique user ID and add tasksByList for that user
-////            databaseRef.child(user.getUid()).child(TAG).child(TASK_LISTS).setValue(taskLists);
-////            databaseRef.child(user.getUid()).child(TAG).child(LISTS).setValue(lists);
-//        }
-
-        TaskList taskList = new TaskList(listName);
-        lists.add(listName);
-        taskLists.put(listName, taskList);
+        if (!lists.contains(listName)) {
+            TaskList taskList = new TaskList(listName);
+            lists.add(listName);
+            taskLists.put(listName, taskList);
+            Log.d(TAG, "Task List added to model");
+            // ...update branch under users with unique user ID and add tasksByList for that user
+//            databaseRef.child(user.getUid()).child(TAG).child(TASK_LISTS).setValue(taskLists);
+//            databaseRef.child(user.getUid()).child(TAG).child(LISTS).setValue(lists);
+        }
     }
 
     /**

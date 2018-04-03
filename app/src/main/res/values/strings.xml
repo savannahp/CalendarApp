@@ -17,4 +17,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="list_name">list name</string>
+    <string name="cancel">Cancel</string>
+    <string name="add">Add</string>
+    <string name="name_of_list">Name of List</string>
 </resources>

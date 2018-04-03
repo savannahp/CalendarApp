@@ -8,8 +8,6 @@ import android.widget.EditText;
 
 public class AddListActivity extends AppCompatActivity {
 
-    public static final String EXTRA_MESSAGE = "teamproject.savannahpyle.calendarapp: AddListActivity";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +22,7 @@ public class AddListActivity extends AppCompatActivity {
 
         model.addList(listName);
         Intent intent = new Intent(this, SingleListActivity.class);
-        intent.putExtra(EXTRA_MESSAGE, listName);
+        intent.putExtra(ListMainActivity.EXTRA_MESSAGE, listName);
         startActivity(intent);
     }
 }

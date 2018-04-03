@@ -24,7 +24,10 @@ public class SingleListActivity extends AppCompatActivity {
 
         Log.d(TAG, "About to receive intent");
         Intent intent = getIntent();
+
         String listName = intent.getStringExtra(ListMainActivity.EXTRA_MESSAGE);
+        Log.d(TAG, "intent.getExtras: " + listName);
+
         Log.d(TAG, "Intent received");
 
         Log.d(TAG, "Name of list: " + listName);
