@@ -21,4 +21,6 @@
     <string name="cancel">Cancel</string>
     <string name="add">Add</string>
     <string name="name_of_list">Name of List</string>
+    <string name="task_name">Task Name</string>
+    <string name="due_date">Due Date (MM/DD/YYYY)</string>
 </resources>

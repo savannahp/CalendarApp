@@ -9,4 +9,5 @@
     android:contextClickable="true"
     android:duplicateParentState="false"
     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+    android:onClick="markTaskComplete"
     tools:text="CheckBox" />
