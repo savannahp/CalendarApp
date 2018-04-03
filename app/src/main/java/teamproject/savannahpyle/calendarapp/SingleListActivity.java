@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import java.util.List;
 
@@ -37,9 +38,9 @@ public class SingleListActivity extends AppCompatActivity {
         this.taskList = listModel.getTaskList(listName);
 
         // Fill list with fake data for testing
-//        for (Integer i = 1; i <= 20; i++) {
-//            taskList.addTask("Task " + i.toString());
-//        }
+        for (Integer i = 1; i < 10; i++) {
+            taskList.addTask("Task " + i.toString());
+        }
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list_recycler_view);
 
@@ -54,5 +55,14 @@ public class SingleListActivity extends AppCompatActivity {
         // specify an adapter (see also next example)
         mAdapter = new CheckListAdapter(this.taskList.getTasksAsStrings());
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    public void addTask(View view) {
+        Intent intent = new Intent(this, AddTaskActivity.class);
+        startActivity(intent);
+    }
+
+    public void markTaskComplete(View view) {
+
     }
 }
