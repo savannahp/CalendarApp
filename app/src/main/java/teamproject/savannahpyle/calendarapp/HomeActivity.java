@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -79,12 +80,17 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     // TODO: Add stuff
-    void loadGraphic(View v) {
-
-    }
-
     void loadNav(View v) {
 
     }
 
+    public void goToLists(View view) {
+        Intent intent = new Intent(this, ListMainActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToCalendar(View view) {
+        Intent intent = new Intent(this, MonthActivity.class);
+        startActivity(intent);
+    }
 }

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ListMainActivity extends AppCompatActivity {
@@ -64,5 +65,10 @@ public class ListMainActivity extends AppCompatActivity {
         Log.i(TAG, "Intent created. Starting Activity with intent");
 
         startActivity(intent);
+    }
+
+    public void addNewList(View view) {
+
+
     }
 }
