@@ -34,9 +34,9 @@ public class SingleListActivity extends AppCompatActivity {
         this.taskList = listModel.getTaskList(listName);
 
         // Fill list with fake data for testing
-        for (Integer i = 1; i <= 20; i++) {
-            taskList.addTask("Task " + i.toString());
-        }
+//        for (Integer i = 1; i <= 20; i++) {
+//            taskList.addTask("Task " + i.toString());
+//        }
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list_recycler_view);
 

@@ -31,9 +31,9 @@ public class ListMainActivity extends AppCompatActivity {
         ListModel listModel = ListModel.getInstance();
 
         // Fake data to test with
-        for (Integer i = 0; i <= 20; i++) {
-            listModel.addList("List " + i.toString());
-        }
+//        for (Integer i = 0; i <= 20; i++) {
+//            listModel.addList("List " + i.toString());
+//        }
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list_recycler_view);
 
@@ -68,7 +68,8 @@ public class ListMainActivity extends AppCompatActivity {
     }
 
     public void addNewList(View view) {
-
+        Intent intent = new Intent(this, AddListActivity.class);
+        startActivity(intent);
 
     }
 }
