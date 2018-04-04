@@ -1,6 +1,8 @@
 package teamproject.savannahpyle.calendarapp;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -63,6 +65,19 @@ public class TaskList {
      */
     public void addTask(String Description) {
         Task task = new Task(this, Description);
+        tasks.add(task);
+        tasksAsStrings.add(Description);
+    }
+
+    /**
+     * Adds a new task to this to-do list.
+     *
+     * @param Description Description of the new task being added
+     * @param dueDate the date that the task is due
+     */
+    public void addTask(String Description, GregorianCalendar dueDate) {
+        Task task = new Task(this, Description);
+        task.setDueDate(dueDate);
         tasks.add(task);
         tasksAsStrings.add(Description);
     }

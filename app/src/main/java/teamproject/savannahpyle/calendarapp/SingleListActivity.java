@@ -26,21 +26,24 @@ public class SingleListActivity extends AppCompatActivity {
         Log.d(TAG, "About to receive intent");
         Intent intent = getIntent();
 
-        String listName = intent.getStringExtra(ListMainActivity.EXTRA_MESSAGE);
+        String listName = intent.getStringExtra(Extra.LIST);
         Log.d(TAG, "intent.getExtras: " + listName);
-
+c
+        
         Log.d(TAG, "Intent received");
 
         Log.d(TAG, "Name of list: " + listName);
+
+        setTitle(listName);
 
         ListModel listModel = ListModel.getInstance();
 
         this.taskList = listModel.getTaskList(listName);
 
         // Fill list with fake data for testing
-        for (Integer i = 1; i < 10; i++) {
-            taskList.addTask("Task " + i.toString());
-        }
+//        for (Integer i = 1; i < 10; i++) {
+//            taskList.addTask("Task " + i.toString());
+//        }
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list_recycler_view);
 
@@ -59,6 +62,8 @@ public class SingleListActivity extends AppCompatActivity {
 
     public void addTask(View view) {
         Intent intent = new Intent(this, AddTaskActivity.class);
+
+        intent.putExtra(Extra.TASK, taskList.getListName());
         startActivity(intent);
     }
 

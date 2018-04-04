@@ -22,7 +22,7 @@ public class AddListActivity extends AppCompatActivity {
 
         model.addList(listName);
         Intent intent = new Intent(this, SingleListActivity.class);
-        intent.putExtra(ListMainActivity.EXTRA_MESSAGE, listName);
+        intent.putExtra(Extra.LIST, listName);
         startActivity(intent);
     }
 }

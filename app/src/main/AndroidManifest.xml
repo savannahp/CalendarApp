@@ -21,10 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".SingleListActivity" />
-        <activity android:name=".DayEvents" />
-        <activity android:name=".MonthActivity" />
+
+        <activity android:name=".HomeActivity"/>
+
+        <activity android:name=".SingleListActivity"/>
+        <activity android:name=".DayEvents"/>
+        <activity android:name=".MonthActivity"/>
         <activity android:name=".AddListActivity"/>
         <activity android:name=".AddTaskActivity"/>
     </application>
