@@ -19,7 +19,7 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
     /**
      * For holding all of our data
      */
-    private List<String> mDataset = new ArrayList<>();
+    private List<Task> mDataset = new ArrayList<>();
 
     /**
      * Our custom ViewHolder
@@ -34,13 +34,10 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
 
     /**
      * Constructor that adds a set of list names to our data set
-     * @param listNames Contains set of string list names
+     * @param tasks Contains set of string list names
      */
-    public CheckListAdapter(Set<String> listNames) {
-        mDataset.addAll(listNames);
-    }
-    public CheckListAdapter(List<String> listNames) {
-        mDataset.addAll(listNames);
+    public CheckListAdapter(List<Task> tasks) {
+        mDataset.addAll(tasks);
     }
 
 
@@ -70,7 +67,13 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.checkBox.setText(mDataset.get(position));
+        holder.checkBox.setText(mDataset.get(position).getDescription());
+
+        if (mDataset.get(position).isComplete()) {
+            holder.checkBox.setChecked(true);
+        } else {
+            holder.checkBox.setChecked(false);
+        }
     }
 
     /**

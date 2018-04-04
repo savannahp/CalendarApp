@@ -18,8 +18,8 @@ public class Task {
     private String description;
     private static final int[] PRIORITY_TYPES = {0, 1, 2};
     private int priority = 0;
-    private TaskList list; // TODO: Does this act as a pointer to parent list? Or is this wasting memory?
-    private List<Task> subtasks; // TODO: Make subtask class so that only one level of subtask is possible
+    private TaskList list;
+//    private List<Task> subtasks; // TODO: Make subtask class so that only one level of subtask is possible
     private boolean isComplete = false;
     private GregorianCalendar dueDate;
 
@@ -64,14 +64,6 @@ public class Task {
      */
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    /**
-     * Set the subtasks list
-     * @param subtasks A list of subtasks
-     */
-    public void setSubtasks(List<Task> subtasks) {
-        this.subtasks = subtasks;
     }
 
     /**
@@ -144,15 +136,6 @@ public class Task {
      */
     public String getListName() {
         return list.getListName();
-    }
-
-    /**
-     * Get the list of subtasks
-     *
-     * @return List of Subtasks
-     */
-    public List<Task> getSubtasks() {
-        return subtasks;
     }
 
     /**

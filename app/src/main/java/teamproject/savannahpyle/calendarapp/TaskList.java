@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by savannahpyle on 3/21/18.
@@ -16,14 +18,14 @@ import java.util.List;
 public class TaskList {
 
     private String listName;
-    private List<String> tasksAsStrings = new ArrayList<>();
+    private Set<String> tasksAsStrings = new TreeSet<>();
     private List<Task> tasks = new ArrayList<>();
 
-    public List<String> getTasksAsStrings() {
+    public Set<String> getTasksAsStrings() {
         return tasksAsStrings;
     }
 
-    public void setTasksAsStrings(List<String> tasksAsStrings) {
+    public void setTasksAsStrings(Set<String> tasksAsStrings) {
         this.tasksAsStrings = tasksAsStrings;
     }
 
@@ -93,6 +95,20 @@ public class TaskList {
             tasks.remove(task);
             tasksAsStrings.remove(task.getDescription());
         }
+    }
+
+    /**
+     *
+     * @param taskName Name of the task to return
+     * @return A task
+     */
+    public Task getTask(String taskName) {
+        for (Task t : tasks) {
+            if (taskName.equals(t.getDescription())) {
+                return t;
+            }
+        }
+        return new Task(this, taskName);
     }
 
     /**
