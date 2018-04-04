@@ -26,8 +26,7 @@
         <activity android:name=".DayEvents" />
         <activity android:name=".MonthActivity" />
         <activity android:name=".AddListActivity"/>
-        <activity android:name=".AddTaskActivity"
-            android:theme="@style/AddStuffTheme" />
+        <activity android:name=".AddTaskActivity"/>
     </application>
 
 </manifest>
