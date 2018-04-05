@@ -10,17 +10,17 @@ import java.util.Set;
  * Created by paulland on 2/28/18.
  *
  * This class represents a Task that will be in a
- * to-do list ({@link TaskList})
+ * to-do list ({@link ToDoList})
  *
  * @author Paul Land and Savannah Pyle
  */
 public class Task {
     private String description;
-    private static final int[] PRIORITY_TYPES = {0, 1, 2};
-    private int priority = 0;
-    private TaskList list;
+//    private static final int[] PRIORITY_TYPES = {0, 1, 2};
+//    private int priority = 0;
+    private ToDoList list;
 //    private List<Task> subtasks; // TODO: Make subtask class so that only one level of subtask is possible
-    private boolean isComplete = false;
+    private Boolean isComplete = false;
     private GregorianCalendar dueDate;
 
     /**
@@ -36,7 +36,7 @@ public class Task {
      * @param list A TaskList
      * @param description String description of the new task
      */
-    public Task(TaskList list, String description) {
+    public Task(ToDoList list, String description) {
         this.list = list;
         this.description = description;
     }
@@ -46,16 +46,16 @@ public class Task {
      *
      * @param priority int representing priority level
      */
-    public void setPriority(int priority) {
-
-        // Set the priority level if we have a valid priority type
-        for(int i : PRIORITY_TYPES) {
-            if (i == priority) {
-                this.priority = priority;
-                break;
-            }
-        }
-    }
+//    public void setPriority(int priority) {
+//
+//        // Set the priority level if we have a valid priority type
+//        for(int i : PRIORITY_TYPES) {
+//            if (i == priority) {
+//                this.priority = priority;
+//                break;
+//            }
+//        }
+//    }
 
     /**
      * Set the description.
@@ -71,7 +71,7 @@ public class Task {
      *
      * @param isComplete Bool for whether task is complete
      */
-    public void setComplete(boolean isComplete) {
+    public void setComplete(Boolean isComplete) {
         this.isComplete = isComplete;
     }
 
@@ -89,7 +89,7 @@ public class Task {
      *
      * @param list A TaskList
      */
-    public void setList(TaskList list) {
+    public void setList(ToDoList list) {
         this.list = list;
     }
 
@@ -98,25 +98,25 @@ public class Task {
      *
      * @return int current priority level
      */
-    public int getPriority() {
-        return priority;
-    }
+//    public int getPriority() {
+//        return priority;
+//    }
 
     /**
      * Get an array of the possible int priority levels
      *
      * @return array of int priority levels
      */
-    public int[] getPriorityTypes() {
-        return PRIORITY_TYPES;
-    }
+//    public int[] getPriorityTypes() {
+//        return PRIORITY_TYPES;
+//    }
 
     /**
      * Get the TaskList this Task belongs to.
      *
      * @return TaskList for this Task
      */
-    public TaskList getList() {
+    public ToDoList getList() {
         return list;
     }
 
@@ -143,7 +143,7 @@ public class Task {
      *
      * @return Bool whether task is complete
      */
-    public boolean isComplete() {
+    public Boolean isComplete() {
         return isComplete;
     }
 

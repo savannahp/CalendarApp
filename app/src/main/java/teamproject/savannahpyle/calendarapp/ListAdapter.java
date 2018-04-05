@@ -1,6 +1,7 @@
 package teamproject.savannahpyle.calendarapp;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,6 +17,8 @@ import java.util.Set;
  * The list adapter helps control the view of a to-do list.
  */
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
+
+    private static final String TAG = "ListAdapter";
 
     /**
      * For holding all of our data
@@ -38,10 +41,15 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
      * @param listNames Contains set of string list names
      */
     public ListAdapter(Set<String> listNames) {
-        mDataset.addAll(listNames);
+        if (listNames != null)
+            mDataset.addAll(listNames);
     }
     public ListAdapter(List<String> listNames) {
-        mDataset.addAll(listNames);
+        try {
+            mDataset.addAll(listNames);
+        } catch (NullPointerException np) {
+            Log.e(TAG, "The List is null! " + np.getMessage());
+        }
     }
 
 

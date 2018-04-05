@@ -9,6 +9,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Switch;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.GregorianCalendar;
 
 public class AddTaskActivity extends AppCompatActivity {
@@ -20,6 +22,8 @@ public class AddTaskActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+
+        Log.d(TAG, "Firebase User: " + FirebaseAuth.getInstance().getCurrentUser());
 
         // Set the activity title
         setTitle("Add Task");
@@ -38,7 +42,8 @@ public class AddTaskActivity extends AppCompatActivity {
         String taskName = text.getText().toString();
 
         // Use model to get the list to add task to
-        TaskList list = model.getTaskList(listName);
+        Object o = model.getTaskList(listName);
+        TaskList list = (TaskList) o;
 
         // Add task to the list based on whether there is a due date
         Switch s = findViewById(R.id.dueDateSwitch);
@@ -79,5 +84,13 @@ public class AddTaskActivity extends AppCompatActivity {
             Log.i(TAG, "DatePicker: Invisible");
             picker.setVisibility(View.INVISIBLE);
         }
+    }
+
+    public void cancel(View view) {
+        Log.i(TAG, "Creating intent for SingleListActivity");
+        Intent intent = new Intent(this, SingleListActivity.class);
+        intent.putExtra(Extra.LIST, listName);
+        Log.i(TAG, "Intent created. Starting Activity with intent");
+        startActivity(intent);
     }
 }

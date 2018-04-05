@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.List;
 
 public class SingleListActivity extends AppCompatActivity {
@@ -24,6 +26,8 @@ public class SingleListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_list);
 
+        Log.d(TAG, "Firebase User: " + FirebaseAuth.getInstance().getCurrentUser());
+
         Log.d(TAG, "About to receive intent");
         Intent intent = getIntent();
         Log.d(TAG, "Intent received");
@@ -31,11 +35,12 @@ public class SingleListActivity extends AppCompatActivity {
         Log.d(TAG, "intent.getStringExtra(Extra.LIST): " + listName);
 
         // Sets the title of the activity to the name of current list
-        setTitle(listName);
+        setTitle("List: " + listName);
 
         ListModel listModel = ListModel.getInstance();
 
-        this.taskList = listModel.getTaskList(listName);
+        Object o = listModel.getTaskList(listName);
+        this.taskList = (TaskList) o;
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list_recycler_view);
 
@@ -81,6 +86,15 @@ public class SingleListActivity extends AppCompatActivity {
         else if (t != null && t.isComplete()) {
             t.setComplete(false);
         }
+    }
 
+    /**
+     * Start the home activity
+     *
+     * @param view The view that called this method
+     */
+    public void homeActivity(View view) {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
     }
 }

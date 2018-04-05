@@ -15,24 +15,24 @@ import java.util.TreeSet;
  *
  * @author Paul Land and Savannah Pyle
  */
-public class TaskList {
+public class ToDoList {
 
     private String listName;
-    private Set<String> tasksAsStrings = new TreeSet<>();
+    private List<String> tasksAsStrings = new ArrayList<>();
     private List<Task> tasks = new ArrayList<>();
 
-    public Set<String> getTasksAsStrings() {
+    public List<String> getTasksAsStrings() {
         return tasksAsStrings;
     }
 
-    public void setTasksAsStrings(Set<String> tasksAsStrings) {
+    public void setTasksAsStrings(List<String> tasksAsStrings) {
         this.tasksAsStrings = tasksAsStrings;
     }
 
     /**
      * Default constructor with no arguments for Firebase use.
      */
-    public TaskList() {
+    public ToDoList() {
         // Purposely blank for use with Firebase Database
     }
 
@@ -42,7 +42,7 @@ public class TaskList {
      * @param listName Name of the list
      * @param task A list of tasks to add to this list
      */
-    public TaskList(String listName, List<Task> task) {
+    public ToDoList(String listName, List<Task> task) {
         this.listName = listName;
         this.tasks = task;
 
@@ -56,7 +56,7 @@ public class TaskList {
      *
      * @param listName The name of the new list
      */
-    public TaskList(String listName) {
+    public ToDoList(String listName) {
         this.listName = listName;
     }
 
