@@ -41,19 +41,15 @@ public class AddTaskActivity extends AppCompatActivity {
         EditText text = (EditText) findViewById(R.id.taskInput);
         String taskName = text.getText().toString();
 
-        // Use model to get the list to add task to
-        Object o = model.getTaskList(listName);
-        TaskList list = (TaskList) o;
-
         // Add task to the list based on whether there is a due date
         Switch s = findViewById(R.id.dueDateSwitch);
         if (s.isChecked()) {
             DatePicker datePicker = findViewById(R.id.datePicker);
             GregorianCalendar dueDate = new GregorianCalendar(datePicker.getYear(), datePicker.getMonth(),
                                                               datePicker.getDayOfMonth());
-            list.addTask(taskName, dueDate);
+            model.addTask(listName, taskName, dueDate);
         } else {
-            list.addTask(taskName);
+            model.addTask(listName, taskName);
         }
 
         // Return to the single list activity

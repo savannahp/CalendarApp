@@ -1,6 +1,7 @@
 package teamproject.savannahpyle.calendarapp;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -15,6 +16,8 @@ import java.util.Set;
  * The list adapter helps control the view of a to-do list.
  */
 public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.ViewHolder>{
+
+    private static final String TAG = "CheckListAdapter";
 
     /**
      * For holding all of our data
@@ -37,9 +40,12 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
      * @param tasks Contains set of string list names
      */
     public CheckListAdapter(List<Task> tasks) {
-        mDataset.addAll(tasks);
+        try {
+            mDataset.addAll(tasks);
+        } catch (NullPointerException np) {
+            Log.d(TAG, "List of Tasks is null: " + np.getMessage());
+        }
     }
-
 
     /**
      * Creates and returns a {@link CheckListAdapter.ViewHolder}

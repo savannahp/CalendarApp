@@ -5,11 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 /**
  * Created by savannahpyle on 3/21/18.
@@ -40,15 +39,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
      * Constructor that adds a set of list names to our data set
      * @param listNames Contains set of string list names
      */
-    public ListAdapter(Set<String> listNames) {
-        if (listNames != null)
-            mDataset.addAll(listNames);
-    }
-    public ListAdapter(List<String> listNames) {
+    public ListAdapter(Map<String, Object> listNames) {
         try {
-            mDataset.addAll(listNames);
+            mDataset.addAll(listNames.keySet());
         } catch (NullPointerException np) {
-            Log.e(TAG, "The List is null! " + np.getMessage());
+            Log.e(TAG, "Map<String, Object> listNames is null: " + np.getMessage());
         }
     }
 

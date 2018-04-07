@@ -13,6 +13,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,10 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
+
+// TODO: add these features to the list
+// Sort by due date, by priority level, by overdue
+// Delete completed tasks option/button
 
 /**
  * Created by paulland on 3/16/18.
@@ -37,21 +42,14 @@ public class ListModel {
 
     // For the singleton pattern (Eager singleton)
     private static final ListModel instance = new ListModel();
-    
-    // Log message tag
+
     private static final String TAG = "ListModel";
 
-    // These hold the to-do list data
-    private Map<String, Object> lists;
-
-    // TODO: add these features to the list
-    // Sort by due date, by priority level, by overdue
-    // Delete completed tasks option/button
+    private Map<String, Object> lists; // Object is actually type ToDoList
 
     // For accessing the Firebase Database
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference(user.getUid());
-
 
     /**
      * Default constructor with no args required for Firebase Database.
@@ -59,33 +57,31 @@ public class ListModel {
      */
     private ListModel() {
 
-        databaseRef.setValue("Hello world");
-//        if (user != null) {
-//            // Listener for changes in the database
-//            ValueEventListener postListener = new ValueEventListener() {
-//                @Override
-//                @SuppressWarnings("unchecked")
-//                public void onDataChange(DataSnapshot dataSnapshot) {
-//                    Log.d(TAG, "Preparing to update " + TASK_LISTS);
-//                    taskLists = (Map) dataSnapshot.child(user.getUid()).child(TAG).child(TASK_LISTS).getValue();
-//                    Log.d(TAG, TASK_LISTS + " updated");
-//
-//                    Log.d(TAG, "Preparing to update " + LISTS);
-//                    lists = (List<String>) dataSnapshot.child(user.getUid()).child(TAG).child(LISTS).getValue();
-//                    Log.d(TAG, LISTS + " updated");
-//                }
-//
-//                @Override
-//                public void onCancelled(DatabaseError databaseError) {
-//                    // Getting Post failed, log a message
-//                    Log.w(TAG, "onCancelled", databaseError.toException());
-//                }
-//            };
-//
-//            // Add the database listeners (I hope this works here *fingers crossed*)
-//            databaseRef.addValueEventListener(postListener);
-            lists = new TreeMap<>();
-//        }
+        // Listener for changes in the database
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            @SuppressWarnings("unchecked")
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "Preparing to update the ListModel");
+                lists = (Map<String, Object>) dataSnapshot.child(TAG).getValue();
+                Log.d(TAG, "ListModel has been updated");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "onCancelled", databaseError.toException());
+            }
+        };
+
+        // Add the database listeners (I hope this works here *fingers crossed*)
+        databaseRef.addValueEventListener(postListener);
+    }
+
+    public void update() {
+        Log.d(TAG, "Updating database");
+        databaseRef.child(TAG).setValue(lists);
+        Log.d(TAG, "Database update complete");
     }
 
     /**
@@ -94,24 +90,7 @@ public class ListModel {
      * @return The singleton instance of the list model
      */
     public static ListModel getInstance() {
-        Log.d(TAG, "Getting ListModel instance");
-
-        // TODO: EVERY TIME YOU ADD THINGS CHECK IF THE INSTANCE IS NULL
-
-//        // Double-checked-lazy singleton
-//        if (instance == null) {
-//            Log.d(TAG, "Instance was NULL");
-//            synchronized (ListModel.class) {
-//                if (instance == null) {
-//                    Log.d(TAG, "Initializing the singleton ListModel");
-//                    instance = new ListModel();
-//                    taskLists = new HashMap<>();
-//                    lists = new ArrayList<>();
-//                    Log.d(TAG, "Instance initialized successfully");
-//                }
-//            }
-//        }
-        Log.d(TAG, "Returning instance");
+        Log.d(TAG, "Getting and returning ListModel instance");
         return instance;
     }
 
@@ -123,8 +102,30 @@ public class ListModel {
      * @param description Description of the task
      */
     public void addTask(String listName, String description) {
+        Map listMap = (Map)lists.get(listName);
+
+        String name = (String)listMap.get("listName");
+        List tasks = (List) listMap.get("tasks");
+
+        ToDoList toDoList = new ToDoList(name, tasks);
+
+        toDoList.addTask(description);
+
+        lists.replace(toDoList.getListName(), toDoList);
+    }
+
+    /**
+     * Add a task to a list using the the TaskList's addTask()
+     * function.
+     *
+     * @param listName The name of the list to add task to
+     * @param description Description of the task
+     * @param dueDate Due date of the task
+     */
+    public void addTask(String listName, String description, GregorianCalendar dueDate) {
         ToDoList list = (ToDoList) lists.get(listName);
-        list.addTask(description);
+        list.addTask(description, dueDate);
+        update();
     }
 
     /**
@@ -132,36 +133,35 @@ public class ListModel {
      *
      * @param listName The name of the list to be created
      */
-    public void addList(String listName) {
+    public Boolean addList(String listName) {
 
-        // This should not be null
+        // Initialize lists if this is the first to-do list
         if (lists == null)
             lists = new TreeMap<>();
 
-        // If taskLists doesn't contain the listName...
+        // If lists doesn't contain the listName...
         if (!lists.containsKey(listName)) {
-            ToDoList taskList = new ToDoList(listName);
-            lists.put(listName, taskList);
+            ToDoList toDoList = new ToDoList(listName);
+            lists.put(listName, toDoList);
             Log.d(TAG, "To Do List added to model");
 
-            // If the user is not null, we update the database
-            if (user != null) {
-                Log.d(TAG, "Updating database");
-                // ...update branch under users with unique user ID and add tasksByList for that user
-                databaseRef.child(TAG).setValue(lists);
-                Log.d(TAG, "Database update complete");
-            }
+            // Update branch in database with current lists value
+            update();
+
+            return true;
         }
+
+        return false;
     }
 
     /**
      * Get a specific TaskList by its name as the key
      *
-     * @param listNameKey The name of the list to be returned
+     * @param listName The name of the list to be returned
      * @return A TaskList or null if that key is not in TaskList map
      */
-    public Object getTaskList(String listNameKey) {
-        return lists.get(listNameKey);
+    public Object getToDoList(String listName) {
+        return lists.get(listName);
     }
 
     /**
@@ -169,14 +169,14 @@ public class ListModel {
      *
      * @return The map of TaskLists (String key, TaskList value)
      */
-    public Map<String, Object> getToDoLists() {
+    public Map<String, Object> getLists() {
         return lists;
     }
 
     /**
      * Sets the TaskList map. Mainly for use by Firebase Database.
      *
-     * @param taskLists Map of TaskLists (String key, TaskList value)
+     * @param toDoLists Map of TaskLists (String key, TaskList value)
      */
     public void setLists(Map<String, Object> toDoLists) {
         lists = toDoLists;

@@ -12,13 +12,14 @@ import android.widget.CheckBox;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
+import java.util.Map;
 
 public class SingleListActivity extends AppCompatActivity {
 
     private static final String TAG = "SingleListActivity";
-    private TaskList taskList;
+    private ToDoList toDoList;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.Adapter<CheckListAdapter.ViewHolder> mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
@@ -29,18 +30,30 @@ public class SingleListActivity extends AppCompatActivity {
         Log.d(TAG, "Firebase User: " + FirebaseAuth.getInstance().getCurrentUser());
 
         Log.d(TAG, "About to receive intent");
+
         Intent intent = getIntent();
+
         Log.d(TAG, "Intent received");
+
         String listName = intent.getStringExtra(Extra.LIST);
+
         Log.d(TAG, "intent.getStringExtra(Extra.LIST): " + listName);
 
         // Sets the title of the activity to the name of current list
         setTitle("List: " + listName);
 
-        ListModel listModel = ListModel.getInstance();
+        // Get the map of the ToDoList from the model
+        Map list = (Map) ListModel.getInstance().getToDoList(listName);
 
-        Object o = listModel.getTaskList(listName);
-        this.taskList = (TaskList) o;
+        // Use the model to initialize the ToDoList
+        List tasks = (List) list.get("tasks");
+
+        Log.d(TAG, "Map list = " + list);
+        Log.d(TAG, "tasks = " + tasks);
+
+        toDoList = new ToDoList((String)list.get("listName"), (List)list.get("tasks"));
+
+        Log.d(TAG, "toDoList = " + toDoList);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list_recycler_view);
 
@@ -53,7 +66,7 @@ public class SingleListActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new CheckListAdapter(this.taskList.getTasks());
+        mAdapter = new CheckListAdapter(this.toDoList.getTasks());
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -66,7 +79,7 @@ public class SingleListActivity extends AppCompatActivity {
         // Create intent and put the list name in as extra so the new task knows
         // which list it is being added to.
         Intent intent = new Intent(this, AddTaskActivity.class);
-        intent.putExtra(Extra.TASK, taskList.getListName());
+        intent.putExtra(Extra.TASK, toDoList.getListName());
         startActivity(intent);
     }
 
@@ -79,7 +92,7 @@ public class SingleListActivity extends AppCompatActivity {
 
         CheckBox checkBox = (CheckBox) view;
 
-        Task t = taskList.getTask(checkBox.getText().toString());
+        Task t = toDoList.getTask(checkBox.getText().toString());
         if (t != null && !t.isComplete()) {
             t.setComplete(true);
         }

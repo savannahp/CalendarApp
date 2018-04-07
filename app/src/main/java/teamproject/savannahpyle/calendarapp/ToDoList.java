@@ -18,16 +18,7 @@ import java.util.TreeSet;
 public class ToDoList {
 
     private String listName;
-    private List<String> tasksAsStrings = new ArrayList<>();
-    private List<Task> tasks = new ArrayList<>();
-
-    public List<String> getTasksAsStrings() {
-        return tasksAsStrings;
-    }
-
-    public void setTasksAsStrings(List<String> tasksAsStrings) {
-        this.tasksAsStrings = tasksAsStrings;
-    }
+    private List<Task> tasks;
 
     /**
      * Default constructor with no arguments for Firebase use.
@@ -44,11 +35,11 @@ public class ToDoList {
      */
     public ToDoList(String listName, List<Task> task) {
         this.listName = listName;
-        this.tasks = task;
 
-        for (Task t : this.tasks) {
-            tasksAsStrings.add(t.getDescription());
-        }
+        if (task != null)
+            tasks = task;
+        else
+            tasks = new ArrayList<>();
     }
 
     /**
@@ -58,6 +49,7 @@ public class ToDoList {
      */
     public ToDoList(String listName) {
         this.listName = listName;
+        tasks = new ArrayList<>();
     }
 
     /**
@@ -68,7 +60,6 @@ public class ToDoList {
     public void addTask(String Description) {
         Task task = new Task(this, Description);
         tasks.add(task);
-        tasksAsStrings.add(Description);
     }
 
     /**
@@ -81,7 +72,6 @@ public class ToDoList {
         Task task = new Task(this, Description);
         task.setDueDate(dueDate);
         tasks.add(task);
-        tasksAsStrings.add(Description);
     }
 
     /**
@@ -93,7 +83,6 @@ public class ToDoList {
         // Remove the task if it exists
         if(tasks.contains(task)) {
             tasks.remove(task);
-            tasksAsStrings.remove(task.getDescription());
         }
     }
 
