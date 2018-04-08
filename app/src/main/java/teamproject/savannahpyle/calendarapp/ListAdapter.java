@@ -39,11 +39,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
      * Constructor that adds a set of list names to our data set
      * @param listNames Contains set of string list names
      */
-    public ListAdapter(Map<String, Object> listNames) {
-        try {
-            mDataset.addAll(listNames.keySet());
-        } catch (NullPointerException np) {
-            Log.e(TAG, "Map<String, Object> listNames is null: " + np.getMessage());
+    public ListAdapter(List<ToDoList> listNames) {
+        if (listNames != null) {
+            for (ToDoList t : listNames) {
+                mDataset.add(t.getListName());
+            }
         }
     }
 

@@ -47,7 +47,7 @@ public class AddTaskActivity extends AppCompatActivity {
             DatePicker datePicker = findViewById(R.id.datePicker);
             GregorianCalendar dueDate = new GregorianCalendar(datePicker.getYear(), datePicker.getMonth(),
                                                               datePicker.getDayOfMonth());
-            model.addTask(listName, taskName, dueDate);
+            model.addTask(listName, taskName);
         } else {
             model.addTask(listName, taskName);
         }

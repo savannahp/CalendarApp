@@ -15,13 +15,13 @@ import java.util.Set;
  * @author Paul Land and Savannah Pyle
  */
 public class Task {
-    private String description;
+    public String description;
 //    private static final int[] PRIORITY_TYPES = {0, 1, 2};
 //    private int priority = 0;
-    private ToDoList list;
+    public ToDoList list;
 //    private List<Task> subtasks; // TODO: Make subtask class so that only one level of subtask is possible
-    private Boolean isComplete = false;
-    private GregorianCalendar dueDate;
+    public Boolean isComplete = false;
+    public GregorianCalendar dueDate;
 
     /**
      * Default constructor with no args required for Firebase Database

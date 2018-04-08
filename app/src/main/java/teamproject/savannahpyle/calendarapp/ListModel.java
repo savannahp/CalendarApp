@@ -45,7 +45,7 @@ public class ListModel {
 
     private static final String TAG = "ListModel";
 
-    private Map<String, Object> lists; // Object is actually type ToDoList
+    public List<ToDoList> lists;
 
     // For accessing the Firebase Database
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -57,13 +57,56 @@ public class ListModel {
      */
     private ListModel() {
 
+        lists = new ArrayList<>();
+
         // Listener for changes in the database
         ValueEventListener postListener = new ValueEventListener() {
             @Override
-            @SuppressWarnings("unchecked")
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.d(TAG, "Preparing to update the ListModel");
-                lists = (Map<String, Object>) dataSnapshot.child(TAG).getValue();
+
+                Object o = dataSnapshot.child(TAG).getValue();
+
+                if (o == null)
+                    return;
+
+                // We don't know what type object will be
+                List <Map<String, Object>> list = new ArrayList<>();
+
+                if (o.getClass().isInstance(list))
+                    list = (List<Map<String, Object>>) o;
+
+                for (int i = 0; i < list.size(); i++) {
+                    Map<String, Object> map = list.get(i);
+
+                    // Get name of the list from the map
+                    String name;
+                    if (map.get("listName") == null)
+                        ; // Purposely empty because
+                          // We don't want to add a ToDoList
+                          // with a null name.
+                    else {// Otherwise, we translate the map data to create a ToDoList
+                        name = (String) map.get("listName");
+
+                        // Get List of bools from the map
+                        List<Boolean> bools = new ArrayList<>();
+                        if (map.get("isComplete") != null)
+                            bools.addAll((List<Boolean>) map.get("isComplete"));
+                        else
+                            bools = null;
+
+                        // Get list of strings (tasks) from the map
+                        List<String> tasks = new ArrayList<>();
+                        if (map.get("tasks") != null)
+                            tasks.addAll((List<String>) map.get("tasks"));
+                        else
+                            tasks = null;
+
+                        lists.add(new ToDoList(name, tasks, bools));
+                    }
+                }
+
+
                 Log.d(TAG, "ListModel has been updated");
             }
 
@@ -75,7 +118,7 @@ public class ListModel {
         };
 
         // Add the database listeners (I hope this works here *fingers crossed*)
-        databaseRef.addValueEventListener(postListener);
+        databaseRef.addListenerForSingleValueEvent(postListener);
     }
 
     public void update() {
@@ -102,29 +145,16 @@ public class ListModel {
      * @param description Description of the task
      */
     public void addTask(String listName, String description) {
-        Map listMap = (Map)lists.get(listName);
 
-        String name = (String)listMap.get("listName");
-        List tasks = (List) listMap.get("tasks");
+        ToDoList t = new ToDoList();
 
-        ToDoList toDoList = new ToDoList(name, tasks);
-
-        toDoList.addTask(description);
-
-        lists.replace(toDoList.getListName(), toDoList);
-    }
-
-    /**
-     * Add a task to a list using the the TaskList's addTask()
-     * function.
-     *
-     * @param listName The name of the list to add task to
-     * @param description Description of the task
-     * @param dueDate Due date of the task
-     */
-    public void addTask(String listName, String description, GregorianCalendar dueDate) {
-        ToDoList list = (ToDoList) lists.get(listName);
-        list.addTask(description, dueDate);
+        for (int i = 0; i < lists.size(); i++) {
+            t = lists.get(i);
+            if (t.getListName().equals(listName)) {
+                break;
+            }
+        }
+        t.addTask(description);
         update();
     }
 
@@ -137,49 +167,68 @@ public class ListModel {
 
         // Initialize lists if this is the first to-do list
         if (lists == null)
-            lists = new TreeMap<>();
+            lists = new ArrayList<>();
+
+        ToDoList t;
 
         // If lists doesn't contain the listName...
-        if (!lists.containsKey(listName)) {
-            ToDoList toDoList = new ToDoList(listName);
-            lists.put(listName, toDoList);
-            Log.d(TAG, "To Do List added to model");
+        for (int i = 0; i <= lists.size(); i++) {
+            if (i == lists.size()) {
 
-            // Update branch in database with current lists value
-            update();
+                ToDoList toDoList = new ToDoList(listName);
+                t = new ToDoList(listName);
+                lists.add(t);
+                Log.d(TAG, "To Do List added to model");
 
-            return true;
+                // Update branch in database with current lists value
+                update();
+
+                return true;
+            }
+
+            t = lists.get(i);
+
+            if (t.getListName().equals(listName)) {
+                // TODO: add toast saying list already exists
+                break;
+            }
         }
 
         return false;
     }
 
     /**
-     * Get a specific TaskList by its name as the key
+     * Gets a to-do list by it's name
      *
      * @param listName The name of the list to be returned
-     * @return A TaskList or null if that key is not in TaskList map
+     * @return A To-do list or null if that to-do list is not in lists
      */
-    public Object getToDoList(String listName) {
-        return lists.get(listName);
+    public ToDoList getToDoList(String listName) {
+        ToDoList t;
+        for (int i = 0; i < lists.size(); i++) {
+            t = lists.get(i);
+            if (t.getListName().equals(listName)) {
+                return t;
+            }
+        }
+
+        return null;
     }
 
     /**
-     * Gets the TaskLists map. Mainly for use by Firebase Database.
+     * Sets the To-Do List. Mainly for use by Firebase Database.
      *
-     * @return The map of TaskLists (String key, TaskList value)
+     * @param toDoLists List of To-Do Lists
      */
-    public Map<String, Object> getLists() {
-        return lists;
-    }
-
-    /**
-     * Sets the TaskList map. Mainly for use by Firebase Database.
-     *
-     * @param toDoLists Map of TaskLists (String key, TaskList value)
-     */
-    public void setLists(Map<String, Object> toDoLists) {
+    public void setLists(List<ToDoList> toDoLists) {
         lists = toDoLists;
     }
 
+    /**
+     * Getter for lists
+     * @return List of ToDoLists
+     */
+    public List<ToDoList> getLists() {
+        return lists;
+    }
 }

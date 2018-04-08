@@ -17,29 +17,51 @@ import java.util.TreeSet;
  */
 public class ToDoList {
 
+    private static final String TAG = "ToDoList";
+
+    private String firstTask = "Tap the '+' icon to add a task";
+
     private String listName;
-    private List<Task> tasks;
+    private List<String> tasks;
+    private List<Boolean> isComplete;
 
     /**
      * Default constructor with no arguments for Firebase use.
      */
     public ToDoList() {
-        // Purposely blank for use with Firebase Database
+
+        tasks = new ArrayList<>();
+        isComplete = new ArrayList<>();
+
+        // There must be something in these vars for it to work with firebase
+        tasks.add(firstTask);
+        isComplete.add(true);
     }
 
     /**
      * Non-default constructor that takes a name and the list of tasks
      *
      * @param listName Name of the list
-     * @param task A list of tasks to add to this list
+     * @param tasks A list of tasks to add to this list
+     * @param isComplete list of booleans of whether task is complete
      */
-    public ToDoList(String listName, List<Task> task) {
-        this.listName = listName;
+    public ToDoList(String listName, List<String> tasks, List<Boolean> isComplete) {
+        if (listName != null)
+            this.listName = listName;
 
-        if (task != null)
-            tasks = task;
-        else
-            tasks = new ArrayList<>();
+        if (tasks != null)
+            this.tasks = tasks;
+        else {
+            this.tasks = new ArrayList<>();
+            this.tasks.add(firstTask); // For firebase
+        }
+
+        if (isComplete != null)
+            this.isComplete = isComplete;
+        else {
+            this.isComplete = new ArrayList<>();
+            this.isComplete.add(true); // For firebase
+        }
     }
 
     /**
@@ -50,6 +72,11 @@ public class ToDoList {
     public ToDoList(String listName) {
         this.listName = listName;
         tasks = new ArrayList<>();
+        isComplete = new ArrayList<>();
+
+        // For firebase
+        tasks.add(firstTask);
+        isComplete.add(true);
     }
 
     /**
@@ -58,20 +85,21 @@ public class ToDoList {
      * @param Description Description of the new task being added
      */
     public void addTask(String Description) {
-        Task task = new Task(this, Description);
-        tasks.add(task);
-    }
 
-    /**
-     * Adds a new task to this to-do list.
-     *
-     * @param Description Description of the new task being added
-     * @param dueDate the date that the task is due
-     */
-    public void addTask(String Description, GregorianCalendar dueDate) {
-        Task task = new Task(this, Description);
-        task.setDueDate(dueDate);
-        tasks.add(task);
+        if (Description == null)
+            return;
+
+        // An initial to-do list sets the value of the first task to "" and
+        // the first isComplete to "true" so that it will be stored in firebase.
+        // We must clear those initial values.
+        if (tasks.size() == 1 && tasks.contains(firstTask)){
+            tasks.clear();
+            isComplete.clear();
+        }
+
+        // Add description and set completion to false
+        tasks.add(Description);
+        isComplete.add(false);
     }
 
     /**
@@ -79,25 +107,22 @@ public class ToDoList {
      *
      * @param task The task to be removed
      */
-    public void removeTask(Task task){
+    public void removeTask(String task){
         // Remove the task if it exists
-        if(tasks.contains(task)) {
-            tasks.remove(task);
-        }
-    }
+        for (int i = 0; i < tasks.size(); i++) {
+            if (task.equals(tasks.get(i))) {
+                tasks.remove(i);
+                isComplete.remove(i);
 
-    /**
-     *
-     * @param taskName Name of the task to return
-     * @return A task
-     */
-    public Task getTask(String taskName) {
-        for (Task t : tasks) {
-            if (taskName.equals(t.getDescription())) {
-                return t;
+                // For purpose of firebase storage
+                if (tasks.isEmpty()) {
+                    tasks.add(firstTask);
+                    isComplete.add(true);
+                }
+
+                break;
             }
         }
-        return new Task(this, taskName);
     }
 
     /**
@@ -114,7 +139,7 @@ public class ToDoList {
      *
      * @return The list of tasks for this to-do list
      */
-    public List<Task> getTasks() {
+    public List<String> getTasks() {
         return tasks;
     }
 
@@ -133,7 +158,25 @@ public class ToDoList {
      *
      * @param task The list of tasks to associate with this to-do list
      */
-    public void setTasks(List<Task> task) {
+    public void setTasks(List<String> task) {
         this.tasks = task;
+    }
+
+    public List<Boolean> getIsComplete() {
+        return isComplete;
+    }
+
+    public void setIsComplete(List<Boolean> isComplete) {
+        this.isComplete = isComplete;
+    }
+
+    public void setTaskComplete(String task) {
+        for (int i = 0; i < tasks.size(); i++) {
+            if (task.equals(tasks.get(i))) {
+                Boolean b = !isComplete.get(i);
+                isComplete.set(i, b);
+                i = tasks.size();
+            }
+        }
     }
 }

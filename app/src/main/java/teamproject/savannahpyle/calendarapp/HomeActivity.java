@@ -9,7 +9,13 @@ import android.view.View;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,6 +25,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 123; // For FirebaseAuth
 
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +34,12 @@ public class HomeActivity extends AppCompatActivity {
         setTitle("Home");
 
         Log.d(TAG, "Firebase User: " + FirebaseAuth.getInstance().getCurrentUser());
+
+        if (user != null) {
+            ListModel model = ListModel.getInstance();
+        }
+
+
 
         // Login with FirebaseAuth if there is no current user
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
@@ -42,18 +56,6 @@ public class HomeActivity extends AppCompatActivity {
                             .build(),
                     RC_SIGN_IN);
         }
-
-
-//        Context context = new ContextWrapper(getApplicationContext());
-//
-//        // Load the preferences
-//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-//        String activity = preferences.getString(KEY_ACTIVITY, "No saved state");
-//
-//        if (activity.equals("MonthActivity")) {
-//            Intent intent = new Intent(this, MonthActivity.class);
-//            startActivity(intent);
-//        }
     }
 
     @Override
@@ -67,6 +69,9 @@ public class HomeActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
                 Log.i(TAG, "User Successfully signed in");
+                // To initialize the list model and get the data immediately
+                user = FirebaseAuth.getInstance().getCurrentUser();
+                ListModel model = ListModel.getInstance();
 
             } else {
                 Log.i(TAG, "User unable to sign in");

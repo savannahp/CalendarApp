@@ -42,16 +42,9 @@ public class SingleListActivity extends AppCompatActivity {
         // Sets the title of the activity to the name of current list
         setTitle("List: " + listName);
 
-        // Get the map of the ToDoList from the model
-        Map list = (Map) ListModel.getInstance().getToDoList(listName);
+        ListModel model = ListModel.getInstance();
 
-        // Use the model to initialize the ToDoList
-        List tasks = (List) list.get("tasks");
-
-        Log.d(TAG, "Map list = " + list);
-        Log.d(TAG, "tasks = " + tasks);
-
-        toDoList = new ToDoList((String)list.get("listName"), (List)list.get("tasks"));
+        toDoList = model.getToDoList(listName);
 
         Log.d(TAG, "toDoList = " + toDoList);
 
@@ -66,7 +59,7 @@ public class SingleListActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new CheckListAdapter(this.toDoList.getTasks());
+        mAdapter = new CheckListAdapter(this.toDoList.getTasks(), this.toDoList.getIsComplete());
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -92,13 +85,9 @@ public class SingleListActivity extends AppCompatActivity {
 
         CheckBox checkBox = (CheckBox) view;
 
-        Task t = toDoList.getTask(checkBox.getText().toString());
-        if (t != null && !t.isComplete()) {
-            t.setComplete(true);
-        }
-        else if (t != null && t.isComplete()) {
-            t.setComplete(false);
-        }
+        String task = checkBox.getText().toString();
+
+        toDoList.setTaskComplete(task);
     }
 
     /**
@@ -111,3 +100,321 @@ public class SingleListActivity extends AppCompatActivity {
         startActivity(intent);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// HA. GOT 'EM.

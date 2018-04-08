@@ -22,7 +22,8 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
     /**
      * For holding all of our data
      */
-    private List<Task> mDataset = new ArrayList<>();
+    private List<String> mDataset;
+    private List<Boolean> mDataBool;
 
     /**
      * Our custom ViewHolder
@@ -39,12 +40,16 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
      * Constructor that adds a set of list names to our data set
      * @param tasks Contains set of string list names
      */
-    public CheckListAdapter(List<Task> tasks) {
-        try {
-            mDataset.addAll(tasks);
-        } catch (NullPointerException np) {
-            Log.d(TAG, "List of Tasks is null: " + np.getMessage());
-        }
+    public CheckListAdapter(List<String> tasks, List<Boolean> completion) {
+        if (tasks != null)
+            mDataset = tasks;
+        else
+            mDataset = new ArrayList<>();
+
+        if (completion != null)
+            mDataBool = completion;
+        else
+            mDataBool = new ArrayList<>();
     }
 
     /**
@@ -73,9 +78,9 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.checkBox.setText(mDataset.get(position).getDescription());
+        holder.checkBox.setText(mDataset.get(position));
 
-        if (mDataset.get(position).isComplete()) {
+        if (mDataBool.get(position)) {
             holder.checkBox.setChecked(true);
         } else {
             holder.checkBox.setChecked(false);
