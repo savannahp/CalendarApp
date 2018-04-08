@@ -3,6 +3,7 @@ package teamproject.savannahpyle.calendarapp;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -31,7 +32,8 @@ public class AddEventActivity extends AppCompatActivity {
         String eventN = eventName.getText().toString();
         String startT = startTime.getText().toString();
         String endT = endTime.getText().toString();
-        
+
+        Log.d("LOSERLOSERLOSERLOSERLOSER", "STAR TIME:" + startT);
 
     }
 }
