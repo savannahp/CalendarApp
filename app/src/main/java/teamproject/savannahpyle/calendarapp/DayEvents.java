@@ -3,6 +3,9 @@ package teamproject.savannahpyle.calendarapp;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,6 +16,11 @@ public class DayEvents extends AppCompatActivity {
 
     private TextView thedate;
     private Button btngocalendar;
+    private String date;
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +30,7 @@ public class DayEvents extends AppCompatActivity {
         btngocalendar = (Button) findViewById(R.id.btngocalendar);
 
         Intent incoming = getIntent();
-        String date = incoming.getStringExtra("date");
+        this.date = incoming.getStringExtra("date");
         thedate.setText(date);
 
         btngocalendar.setOnClickListener(new View.OnClickListener() {
@@ -33,5 +41,28 @@ public class DayEvents extends AppCompatActivity {
             }
         });
 
+        mRecyclerView = (RecyclerView) findViewById(R.id.includeRecycler);
+
+        Log.d(TAG, "Recycler view =" + mRecyclerView.toString());
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        // specify an adapter (see also next example)
+        //mAdapter = new ListAdapter();
+        mRecyclerView.setAdapter(mAdapter);
+
+    }
+
+    public void addEvent(View view) {
+
+        Intent intent = new Intent(this, AddEventActivity.class);
+        intent.putExtra(Extra.EVENT, date);
+        startActivity(intent);
     }
 }

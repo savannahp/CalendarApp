@@ -21,13 +21,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".ListMainActivity"/>
-        <activity android:name=".SingleListActivity"/>
-        <activity android:name=".DayEvents"/>
-        <activity android:name=".MonthActivity"/>
-        <activity android:name=".AddListActivity"/>
-        <activity android:name=".AddTaskActivity"/>
+        <activity android:name=".ListMainActivity" />
+        <activity android:name=".SingleListActivity" />
+        <activity android:name=".DayEvents" />
+        <activity android:name=".MonthActivity" />
+        <activity android:name=".AddListActivity" />
+        <activity android:name=".AddTaskActivity" />
+        <activity android:name=".AddEventActivity"></activity>
     </application>
 
 </manifest>

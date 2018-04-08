@@ -12,6 +12,16 @@ public class Event {
     private GregorianCalendar start;
     private GregorianCalendar end;
 
+    public Event(String eventName) {
+        EventName = eventName;
+    }
+
+    public Event(String eventName, GregorianCalendar start, GregorianCalendar end) {
+        EventName = eventName;
+        this.start = start;
+        this.end = end;
+    }
+
     public String getEventName() {
         return EventName;
     }
