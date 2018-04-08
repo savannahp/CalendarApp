@@ -179,4 +179,15 @@ public class ToDoList {
             }
         }
     }
+
+    public void removeCompleted() {
+        // Loop through and remove completed tasks
+        for (int i = 0; i < isComplete.size(); i++) {
+            if (isComplete.get(i)) {
+                isComplete.remove(i);
+                tasks.remove(i);
+                i--; // Since we've removed items we need the index to go back one
+            }
+        }
+    }
 }

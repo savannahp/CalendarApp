@@ -99,6 +99,12 @@ public class SingleListActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
+
+    public void removeTasks(View view) {
+        toDoList.removeCompleted();
+        mAdapter = new CheckListAdapter(this.toDoList.getTasks(), this.toDoList.getIsComplete());
+        mRecyclerView.setAdapter(mAdapter);
+    }
 }
 
 

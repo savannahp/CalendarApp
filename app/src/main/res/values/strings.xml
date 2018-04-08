@@ -22,5 +22,6 @@
     <string name="task_name">Task Name</string>
     <string name="due_date">Due Date</string>
     <string name="home_page">Home</string>
+    <string name="remove_completed_tasks">Remove Completed Tasks</string>
 
 </resources>
