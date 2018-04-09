@@ -23,7 +23,7 @@
         </activity>
         <activity android:name=".ListMainActivity" />
         <activity android:name=".SingleListActivity" />
-        <activity android:name=".DayEvents" />
+        <activity android:name=".SingleDayActivity" />
         <activity android:name=".MonthActivity" />
         <activity android:name=".AddListActivity" />
         <activity android:name=".AddTaskActivity" />

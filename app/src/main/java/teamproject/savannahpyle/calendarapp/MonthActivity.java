@@ -26,8 +26,11 @@ public class MonthActivity extends AppCompatActivity {
                 month++;
                 String date = month + "/" + dayOfMonth + "/" + year;
                 Log.d(TAG, "onSelectedDayChange: mm/dd/yyyy:" + date);
-                Intent intent = new Intent(MonthActivity.this, DayEvents.class);
-                intent.putExtra("date", date);
+                Intent intent = new Intent(MonthActivity.this, SingleDayActivity.class);
+                intent.putExtra(Extra.DATE, date);
+                intent.putExtra(Extra.YEAR, year);
+                intent.putExtra(Extra.MONTH, month);
+                intent.putExtra(Extra.DAY, dayOfMonth);
                 startActivity(intent);
 
             }

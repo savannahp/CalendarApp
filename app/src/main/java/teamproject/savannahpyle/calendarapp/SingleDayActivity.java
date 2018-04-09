@@ -10,13 +10,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class DayEvents extends AppCompatActivity {
+public class SingleDayActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
     private TextView thedate;
     private Button btngocalendar;
     private String date;
+    private int year;
+    private int month;
+    private int dayOfMonth;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -25,18 +28,23 @@ public class DayEvents extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_day_events);
+        setContentView(R.layout.activity_single_day);
+
         thedate = (TextView) findViewById(R.id.date);
         btngocalendar = (Button) findViewById(R.id.btngocalendar);
 
         Intent incoming = getIntent();
-        this.date = incoming.getStringExtra("date");
+        date = incoming.getStringExtra(Extra.DATE);
         thedate.setText(date);
+
+        year = incoming.getIntExtra(Extra.YEAR, 0);
+        month = incoming.getIntExtra(Extra.MONTH, 0);
+        dayOfMonth = incoming.getIntExtra(Extra.DAY, 0);
 
         btngocalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DayEvents.this,MonthActivity.class);
+                Intent intent = new Intent(SingleDayActivity.this, MonthActivity.class);
                 startActivity(intent);
             }
         });
@@ -53,8 +61,10 @@ public class DayEvents extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        CalendarModel model = CalendarModel.getInstance();
+
         // specify an adapter (see also next example)
-        //mAdapter = new ListAdapter();
+        mAdapter = new EventListAdapter(model.getEventList(date));
         mRecyclerView.setAdapter(mAdapter);
 
     }
@@ -62,7 +72,10 @@ public class DayEvents extends AppCompatActivity {
     public void addEvent(View view) {
 
         Intent intent = new Intent(this, AddEventActivity.class);
-        intent.putExtra(Extra.EVENT, date);
+        intent.putExtra(Extra.DATE, date);
+        intent.putExtra(Extra.YEAR, year);
+        intent.putExtra(Extra.MONTH, month);
+        intent.putExtra(Extra.DAY, dayOfMonth);
         startActivity(intent);
     }
 }
