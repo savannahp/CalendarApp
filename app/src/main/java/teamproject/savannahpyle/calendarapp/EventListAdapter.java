@@ -69,12 +69,25 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
 
         String startTime;
 
-        Integer intHour = mDataset.get(position).getStart().get(Calendar.HOUR);
+        Integer intHour = mDataset.get(position).getStart().get(Calendar.HOUR_OF_DAY); // This uses 24 hour time
 
-        if (intHour >= 10)
+        if (intHour >= 10) {
+            if (intHour > 12) {
+                intHour -= 12; // Because of 24 hour time stuff
+                if (intHour < 10)
+                    startTime = "  " + intHour.toString();
+                else
+                    startTime = intHour.toString();
+            }
+            else
+                startTime = intHour.toString();
+        }
+        else if (intHour == 0) {
+            intHour += 12;
             startTime = intHour.toString();
+        }
         else
-            startTime = " " + intHour.toString();
+            startTime = "  " + intHour.toString();
 
         Integer intMinute = mDataset.get(position).getStart().get(Calendar.MINUTE);
 
@@ -91,13 +104,26 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
             startTime = startTime.concat("PM");
 
 
-        intHour = mDataset.get(position).getEnd().get(Calendar.HOUR);
+        intHour = mDataset.get(position).getEnd().get(Calendar.HOUR_OF_DAY); // This uses 24 hour time
         String endTime;
 
-        if (intHour >= 10)
+        if (intHour >= 10) {
+            if (intHour > 12) {
+                intHour -= 12; // Because of 24 hour time stuff
+                if (intHour < 10)
+                    endTime = "  " + intHour.toString();
+                else
+                    endTime = intHour.toString();
+            }
+            else
+                endTime = intHour.toString();
+        }
+        else if (intHour == 0) {
+            intHour += 12;
             endTime = intHour.toString();
+        }
         else
-            endTime = " " + intHour.toString();
+            endTime = "  " + intHour.toString();
 
         intMinute = mDataset.get(position).getEnd().get(Calendar.MINUTE);
 

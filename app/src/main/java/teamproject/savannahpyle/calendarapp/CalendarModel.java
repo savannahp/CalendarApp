@@ -1,5 +1,12 @@
 package teamproject.savannahpyle.calendarapp;
 
+import android.util.Log;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -14,6 +21,12 @@ public class CalendarModel {
 
     // Key is string in date format "MM/DD/YYYY", value holds list of all events for that day
     private Map<String, List<Event>> events;
+
+    private static final String TAG = "CalendarModel";
+
+    // For accessing the Firebase Database
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference(user.getUid());
 
     // For singleton purposes
     private static final CalendarModel ourInstance = new CalendarModel();
@@ -31,6 +44,12 @@ public class CalendarModel {
      */
     private CalendarModel() {
         events = new HashMap<>();
+    }
+
+    public void update() {
+        Log.d(TAG, "Updating database");
+        databaseRef.child(TAG).setValue(events);
+        Log.d(TAG, "Database update complete");
     }
 
     /**
