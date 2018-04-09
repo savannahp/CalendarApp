@@ -65,12 +65,13 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
     @Override
     public void onBindViewHolder(EventListAdapter.ViewHolder holder, int position) {
 
-        // Get the start time of the event and put it in a string
-
+        // Event start time string
         String startTime;
 
+        // Get the hours for the start time
         Integer intHour = mDataset.get(position).getStart().get(Calendar.HOUR_OF_DAY); // This uses 24 hour time
 
+        // Format the start time string for the hour portion
         if (intHour >= 10) {
             if (intHour > 12) {
                 intHour -= 12; // Because of 24 hour time stuff
@@ -89,24 +90,32 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         else
             startTime = "  " + intHour.toString();
 
+        // Get the minutes for the start time
         Integer intMinute = mDataset.get(position).getStart().get(Calendar.MINUTE);
 
+        // Format the start time string for the minute portion
         if (intMinute >= 10)
             startTime = startTime.concat(":" + intMinute.toString());
         else
             startTime = startTime.concat(":0" + intMinute.toString());
 
+        // Get the integer representing am or pm for the start time
         Integer amPm = mDataset.get(position).getStart().get(Calendar.AM_PM);
 
+        // Add am or pm to the start time string
         if (amPm.equals(Calendar.AM))
             startTime = startTime.concat("AM");
         else
             startTime = startTime.concat("PM");
 
 
+        // Get the hour of the end time
         intHour = mDataset.get(position).getEnd().get(Calendar.HOUR_OF_DAY); // This uses 24 hour time
+
+        // String to hold the end time of the event
         String endTime;
 
+        // Format the end time string for the hour portion
         if (intHour >= 10) {
             if (intHour > 12) {
                 intHour -= 12; // Because of 24 hour time stuff
@@ -125,15 +134,19 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         else
             endTime = "  " + intHour.toString();
 
+        // get the minute for the end time
         intMinute = mDataset.get(position).getEnd().get(Calendar.MINUTE);
 
+        // Format the start time string for the minute portion
         if (intMinute >= 10)
             endTime = endTime.concat(":" + intMinute.toString());
         else
             endTime = endTime.concat(":0" + intMinute.toString());
 
+        // Get the am or pm integer from the end time
         amPm = mDataset.get(position).getEnd().get(Calendar.AM_PM);
 
+        // Add am or pm to the end time string
         if (amPm.equals(Calendar.AM))
             endTime = endTime.concat("AM");
         else
@@ -143,6 +156,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         // Text to put in the button for the view holder
         String text = startTime + " - " + endTime + ": " + mDataset.get(position).getEventName();
 
+        // Set the text of the button
         holder.button.setText(text);
     }
 
