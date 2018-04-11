@@ -1,6 +1,7 @@
 package teamproject.savannahpyle.calendarapp;
 
-import java.util.GregorianCalendar;
+
+import android.icu.util.Calendar;
 
 /**
  * Created by savannahpyle on 4/7/18.
@@ -8,41 +9,41 @@ import java.util.GregorianCalendar;
 
 public class Event {
 
-    private String EventName;
-    private GregorianCalendar start;
-    private GregorianCalendar end;
+    public String eventName;
+    public String start;
+    public String end;
 
     public Event(String eventName) {
-        EventName = eventName;
+        this.eventName = eventName;
     }
 
-    public Event(String eventName, GregorianCalendar start, GregorianCalendar end) {
-        EventName = eventName;
+    public Event(String eventName, String start, String end) {
+        this.eventName = eventName;
         this.start = start;
         this.end = end;
     }
 
     public String getEventName() {
-        return EventName;
+        return eventName;
     }
 
     public void setEventName(String eventName) {
-        EventName = eventName;
+        this.eventName = eventName;
     }
 
-    public GregorianCalendar getStart() {
+    public String getStart() {
         return start;
     }
 
-    public void setStart(GregorianCalendar start) {
+    public void setStart(String start) {
         this.start = start;
     }
 
-    public GregorianCalendar getEnd() {
+    public String getEnd() {
         return end;
     }
 
-    public void setEnd(GregorianCalendar end) {
+    public void setEnd(String end) {
         this.end = end;
     }
 }

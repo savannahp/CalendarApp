@@ -1,26 +1,25 @@
 package teamproject.savannahpyle.calendarapp;
 
+import android.icu.util.Calendar;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by savannahpyle on 4/7/18.
  */
-
 public class CalendarModel {
 
     // Key is string in date format "MM/DD/YYYY", value holds list of all events for that day
-    private Map<String, List<Event>> events;
+    public List<EventList> events;
 
     private static final String TAG = "CalendarModel";
 
@@ -43,7 +42,7 @@ public class CalendarModel {
      * Private constructor. Just initializes the events map
      */
     private CalendarModel() {
-        events = new HashMap<>();
+        events = new LinkedList<>();
     }
 
     public void update() {
@@ -59,24 +58,38 @@ public class CalendarModel {
      * @param start GregorianCalendar representing start of the event
      * @param end GregorianCalendar representing end of the event
      */
-    public void addEvent(String date, String name, GregorianCalendar start, GregorianCalendar end) {
+    public void addEvent(String date, String name, String start, String end) {
 
         // Create event based on the parameters
         Event event = new Event(name, start, end);
 
-        // Check if there is already an event list at the slot of the map then add event to the list
-        if(events.get(date) == null) {
-            List <Event> e = new ArrayList<>();
-            e.add(event);
-            events.put(date, e);
-        }
-        else
-            events.get(date).add(event);
+        Boolean foundEventList = false;
 
+        for (EventList e : events) {
+            if (e.getDate().equals(date)) {
+                e.add(event);
+                foundEventList = true;
+                break;
+            }
+        }
+
+        if (!foundEventList) {
+            EventList eventList = new EventList(date);
+            eventList.add(event);
+            events.add(eventList);
+        }
+
+        update();
     }
 
-    public List<Event> getEventList(String date) {
-        return events.get(date);
+    public EventList getEventList(String date) {
+        for (EventList e : events) {
+            if (e.getDate().equals(date)) {
+                return e;
+            }
+        }
+
+        return null;
     }
 
 
