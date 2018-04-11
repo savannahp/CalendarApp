@@ -1,5 +1,6 @@
 package teamproject.savannahpyle.calendarapp;
 
+import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
      * For holding all of our data
      */
     private List<String> mDataset;
+    private List<String> mDueDate;
     private List<Boolean> mDataBool;
 
     /**
@@ -40,7 +42,7 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
      * Constructor that adds a set of list names to our data set
      * @param tasks Contains set of string list names
      */
-    public CheckListAdapter(List<String> tasks, List<Boolean> completion) {
+    public CheckListAdapter(List<String> tasks, List<String> dates, List<Boolean> completion) {
         if (tasks != null)
             mDataset = tasks;
         else
@@ -50,6 +52,11 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
             mDataBool = completion;
         else
             mDataBool = new ArrayList<>();
+
+        if (dates != null)
+            mDueDate = dates;
+        else
+            mDueDate = new ArrayList<>();
     }
 
     /**

@@ -65,8 +65,6 @@ public class AddTaskActivity extends AppCompatActivity {
 
             date = month + "/" + day + "/" + year;
 
-
-
             Log.d(TAG, "date: " + date);
 
             model.addTask(listName, taskName);

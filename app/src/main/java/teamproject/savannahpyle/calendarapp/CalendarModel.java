@@ -4,11 +4,15 @@ import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by savannahpyle on 4/7/18.
@@ -39,6 +43,87 @@ public class CalendarModel {
      */
     private CalendarModel() {
         events = new ArrayList<>();
+
+        // Listener for changes in the database
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "Preparing to update the Calendar");
+
+                Object o = dataSnapshot.child(TAG).getValue();
+
+                if (o == null)
+                    return;
+
+                // We don't know what type object will be
+                List <Map<String, Object>> list = new ArrayList<>();
+
+                if (o.getClass().isInstance(list))
+                    list = (List<Map<String, Object>>) o;
+
+                for (int i = 0; i < list.size(); i++) {
+                    Map<String, Object> map = list.get(i);
+
+                    // Get name of the list from the map
+                    String date;
+                    if (map.get("date") == null)
+                        ; // Purposely empty because
+                        // We don't want to add a ToDoList
+                        // with a null name.
+                    else {// Otherwise, we translate the map data to create an event list
+                        date = (String) map.get("date");
+
+                        // Get List of bools from the map
+                        List<Object> event = new ArrayList<>();
+                        if (map.get("eventList") != null) {
+                            event = (List<Object>) map.get("eventList");
+
+                            EventList eventList = new EventList(date);
+
+                            for (int j = 0; j < event.size(); j++) {
+                                Map<String, Object> eventMap = (Map<String, Object>) event.get(j);
+
+                                String end;
+                                String start;
+                                String eventName;
+
+                                if (eventMap.get("end") != null) {
+                                    end = (String) eventMap.get("end");
+                                }
+                                else
+                                    end = "";
+                                if (eventMap.get("start") != null) {
+                                    start = (String) eventMap.get("start");
+                                }
+                                else
+                                    start = "";
+                                if (eventMap.get("eventName") != null) {
+                                    eventName = (String) eventMap.get("eventName");
+                                }
+                                else
+                                    eventName = "";
+
+                                eventList.add(new Event(eventName, start, end));
+                            }
+
+                            events.add(eventList);
+                        }
+                    }
+                }
+
+
+                Log.d(TAG, "Calendar has been updated");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "onCancelled", databaseError.toException());
+            }
+        };
+
+        // Add the database listeners (I hope this works here *fingers crossed*)
+        databaseRef.addListenerForSingleValueEvent(postListener);
     }
 
     /**

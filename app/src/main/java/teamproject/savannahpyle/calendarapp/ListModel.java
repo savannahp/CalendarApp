@@ -159,6 +159,28 @@ public class ListModel {
     }
 
     /**
+     * Add a task to a list using the the TaskList's addTask()
+     * function.
+     *
+     * @param listName The name of the list to add task to
+     * @param description Description of the task
+     * @param date String due date of the task
+     */
+    public void addTask(String listName, String description, String date) {
+
+        ToDoList t = new ToDoList();
+
+        for (int i = 0; i < lists.size(); i++) {
+            t = lists.get(i);
+            if (t.getListName().equals(listName)) {
+                break;
+            }
+        }
+        t.addTask(description, date);
+        update();
+    }
+
+    /**
      * Adds a new to-do list for the user.
      *
      * @param listName The name of the list to be created

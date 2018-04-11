@@ -37,6 +37,7 @@ public class HomeActivity extends AppCompatActivity {
 
         if (user != null) {
             ListModel model = ListModel.getInstance();
+            CalendarModel calendarModel = CalendarModel.getInstance();
         }
 
 

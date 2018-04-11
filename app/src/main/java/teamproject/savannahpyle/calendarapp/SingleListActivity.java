@@ -66,7 +66,7 @@ public class SingleListActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new CheckListAdapter(this.toDoList.getTasks(), this.toDoList.getIsComplete());
+        mAdapter = new CheckListAdapter(this.toDoList.getTasks(), this.toDoList.getDueDates(),this.toDoList.getIsComplete());
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -114,7 +114,7 @@ public class SingleListActivity extends AppCompatActivity {
      */
     public void removeTasks(View view) {
         toDoList.removeCompleted();
-        mAdapter = new CheckListAdapter(this.toDoList.getTasks(), this.toDoList.getIsComplete());
+        mAdapter = new CheckListAdapter(this.toDoList.getTasks(), this.toDoList.getDueDates(), this.toDoList.getIsComplete());
         mRecyclerView.setAdapter(mAdapter);
 
         // Update firebase
