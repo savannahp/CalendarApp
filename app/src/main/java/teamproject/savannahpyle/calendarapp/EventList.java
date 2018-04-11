@@ -15,7 +15,7 @@ public class EventList {
 
     public EventList(String date) {
         this.date = date;
-        eventList = new LinkedList<>();
+        eventList = new ArrayList<>();
     }
 
     public EventList(List<Event> eventList) {

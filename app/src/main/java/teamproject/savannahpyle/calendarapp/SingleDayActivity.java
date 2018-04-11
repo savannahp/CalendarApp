@@ -30,12 +30,13 @@ public class SingleDayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_day);
 
-        thedate = (TextView) findViewById(R.id.date);
         btngocalendar = (Button) findViewById(R.id.btngocalendar);
 
         Intent incoming = getIntent();
         date = incoming.getStringExtra(Extra.DATE);
-        thedate.setText(date);
+
+        // Set title to the date selected
+        setTitle(date);
 
         year = incoming.getIntExtra(Extra.YEAR, 0);
         month = incoming.getIntExtra(Extra.MONTH, 0);

@@ -7,19 +7,6 @@
     android:theme="@style/AddStuffTheme"
     tools:context="teamproject.savannahpyle.calendarapp.AddTaskActivity">
 
-    <TextView
-        android:id="@+id/taskNameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/task_name"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/AddTask"
         android:layout_width="95dp"
@@ -27,6 +14,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="40dp"
         android:layout_marginTop="8dp"
+        android:isScrollContainer="true"
         android:onClick="addTask"
         android:text="@string/add"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -45,7 +33,7 @@
         android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/AddTask"
-        app:layout_constraintHorizontal_bias="0.611"
+        app:layout_constraintHorizontal_bias="0.605"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/datePicker" />
 
@@ -60,36 +48,41 @@
         android:hint="@string/task_name"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.052"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskNameTextView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <DatePicker
         android:id="@+id/datePicker"
         android:layout_width="373dp"
-        android:layout_height="165dp"
+        android:layout_height="396dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
+        android:datePickerMode="calendar"
+        android:theme="@style/AppTheme"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dueDateSwitch" />
+        app:layout_constraintTop_toBottomOf="@+id/taskInput" />
 
     <Switch
         android:id="@+id/dueDateSwitch"
-        android:layout_width="244dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        style="@android:style/Widget.Material.CompoundButton.Switch"
+        android:layout_width="112dp"
+        android:layout_height="37dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:checked="false"
+        android:onClick="enableDueDate"
+        android:switchTextAppearance="@style/TextAppearance.AppCompat.Body1"
         android:text="@string/due_date"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskInput"
-        android:onClick="enableDueDate" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/taskInput"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

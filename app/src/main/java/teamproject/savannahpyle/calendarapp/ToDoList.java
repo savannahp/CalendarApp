@@ -180,6 +180,9 @@ public class ToDoList {
         }
     }
 
+    /**
+     * Removes all of the completed tasks from the to-do list
+     */
     public void removeCompleted() {
         // Loop through and remove completed tasks
         for (int i = 0; i < isComplete.size(); i++) {

@@ -1,16 +1,13 @@
 package teamproject.savannahpyle.calendarapp;
 
-import android.icu.util.Calendar;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -31,7 +28,6 @@ public class CalendarModel {
     private static final CalendarModel ourInstance = new CalendarModel();
 
     /**
-     *
      * @return The singleton instance of the Calendar Model
      */
     public static CalendarModel getInstance() {
@@ -42,9 +38,12 @@ public class CalendarModel {
      * Private constructor. Just initializes the events map
      */
     private CalendarModel() {
-        events = new LinkedList<>();
+        events = new ArrayList<>();
     }
 
+    /**
+     * Update the values stored in the database
+     */
     public void update() {
         Log.d(TAG, "Updating database");
         databaseRef.child(TAG).setValue(events);
@@ -53,10 +52,10 @@ public class CalendarModel {
 
     /**
      *
-     * @param date String for the date in "MM/DD/YYYY" format, used as key for events map
+     * @param date String for the date in "MM/DD/YYYY" format, used to find the EventList to add to
      * @param name Title of the event
-     * @param start GregorianCalendar representing start of the event
-     * @param end GregorianCalendar representing end of the event
+     * @param start String representing start time of the event
+     * @param end String representing end time of the event
      */
     public void addEvent(String date, String name, String start, String end) {
 
@@ -82,6 +81,12 @@ public class CalendarModel {
         update();
     }
 
+    /**
+     * Returns the list of events for specified date.
+     *
+     * @param date Date in "MM/DD/YYYY" form
+     * @return the list of events on the specified date
+     */
     public EventList getEventList(String date) {
         for (EventList e : events) {
             if (e.getDate().equals(date)) {

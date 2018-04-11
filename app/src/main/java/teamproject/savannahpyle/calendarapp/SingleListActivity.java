@@ -22,6 +22,13 @@ public class SingleListActivity extends AppCompatActivity {
     private RecyclerView.Adapter<CheckListAdapter.ViewHolder> mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
+    /**
+     * Gets activity layout. Initializes recycler view
+     * and set the check list adapter as its adapter.
+     * Also initializes layout manager.
+     *
+     * @param savedInstanceState Saved data from the app
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +47,7 @@ public class SingleListActivity extends AppCompatActivity {
         Log.d(TAG, "intent.getStringExtra(Extra.LIST): " + listName);
 
         // Sets the title of the activity to the name of current list
-        setTitle("List: " + listName);
+        setTitle(listName);
 
         ListModel model = ListModel.getInstance();
 
@@ -100,18 +107,20 @@ public class SingleListActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Removes all of the tasks that are marked as complete
+     *
+     * @param view button that was clicked
+     */
     public void removeTasks(View view) {
         toDoList.removeCompleted();
         mAdapter = new CheckListAdapter(this.toDoList.getTasks(), this.toDoList.getIsComplete());
         mRecyclerView.setAdapter(mAdapter);
+
+        // Update firebase
+        ListModel.getInstance().update();
     }
 }
-
-
-
-
-
-
 
 
 
