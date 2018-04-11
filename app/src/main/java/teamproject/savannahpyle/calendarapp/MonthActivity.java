@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.CalendarView;
 
 public class MonthActivity extends AppCompatActivity {
@@ -35,5 +36,10 @@ public class MonthActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void goToHome(View view) {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
     }
 }
