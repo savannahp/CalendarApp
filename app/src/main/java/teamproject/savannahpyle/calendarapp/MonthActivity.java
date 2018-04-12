@@ -8,8 +8,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
 
+/**
+ * Shows a calendar view where days can be clicked to go to the
+ * single day activity.
+ */
 public class MonthActivity extends AppCompatActivity {
-
 
     private  static final String TAG = "CalendarActivity";
     private CalendarView mCalendarView;

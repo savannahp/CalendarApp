@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import java.util.ArrayList;
-import android.icu.util.Calendar;
 import java.util.List;
 
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder> {
@@ -40,17 +39,15 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
     }
 
     /**
-     * Creates and returns a {@link CheckListAdapter.ViewHolder}
+     * Creates and returns a {@link EventListAdapter.ViewHolder}
      * @param parent The parent View
      * @param viewType Integer that specified the type of view
-     * @return A new {@link CheckListAdapter.ViewHolder}
+     * @return A new {@link EventListAdapter.ViewHolder}
      */
     @Override
     public EventListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Button b = (Button) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.button_list_select, parent, false);
-
-        // TODO: Do we need to add anything here?
 
         return new EventListAdapter.ViewHolder(b);
     }

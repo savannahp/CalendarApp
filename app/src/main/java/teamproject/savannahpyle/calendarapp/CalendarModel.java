@@ -16,6 +16,10 @@ import java.util.Map;
 
 /**
  * Created by savannahpyle on 4/7/18.
+ *
+ * The calendar model holds a list of data corresponding to user created
+ * calendar events. It connects to firebase database to pull and push
+ * data.
  */
 public class CalendarModel {
 
@@ -43,7 +47,20 @@ public class CalendarModel {
      */
     private CalendarModel() {
         events = new ArrayList<>();
+    }
 
+    /**
+     * Clears the contents of our events list
+     */
+    public void reset() {
+        events.clear();
+    }
+
+    /**
+     * Creates a one time listener to the database to pull data
+     * to the calendar model.
+     */
+    public void pullData() {
         // Listener for changes in the database
         ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -111,7 +128,6 @@ public class CalendarModel {
                     }
                 }
 
-
                 Log.d(TAG, "Calendar has been updated");
             }
 
@@ -136,6 +152,7 @@ public class CalendarModel {
     }
 
     /**
+     * Adds an event to the event list
      *
      * @param date String for the date in "MM/DD/YYYY" format, used to find the EventList to add to
      * @param name Title of the event
@@ -170,7 +187,7 @@ public class CalendarModel {
      * Returns the list of events for specified date.
      *
      * @param date Date in "MM/DD/YYYY" form
-     * @return the list of events on the specified date
+     * @return the list of events on the specified date or null if no events for that date.
      */
     public EventList getEventList(String date) {
         for (EventList e : events) {
@@ -178,9 +195,6 @@ public class CalendarModel {
                 return e;
             }
         }
-
         return null;
     }
-
-
 }

@@ -1,14 +1,12 @@
 package teamproject.savannahpyle.calendarapp;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by savannahpyle on 3/21/18.
@@ -58,8 +56,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     public ListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Button v = (Button) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.button_list_select, parent, false);
-
-        // TODO: Do we need to add anything here?
 
         return new ViewHolder(v);
     }

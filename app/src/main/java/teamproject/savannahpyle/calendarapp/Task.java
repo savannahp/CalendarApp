@@ -12,6 +12,10 @@ import java.util.Set;
  * This class represents a Task that will be in a
  * to-do list ({@link ToDoList})
  *
+ * THIS CLASS IS NOT USED IN THE APP CURRENTLY
+ * AS USING THIS CLASS SEEMED TO NOT JIVE WITH
+ * FIREBASE'S FLOW
+ *
  * @author Paul Land and Savannah Pyle
  */
 public class Task {

@@ -6,62 +6,72 @@
     android:layout_height="match_parent"
     tools:context="teamproject.savannahpyle.calendarapp.AddListActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="109dp"
-        android:layout_height="45dp"
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="373dp"
+        android:layout_height="396dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
-        android:text="@string/name_of_list"
-        android:textSize="18sp"
+        android:datePickerMode="calendar"
+        android:theme="@style/AppTheme"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listInput" />
+
+    <Switch
+        android:id="@+id/dueDateSwitch"
+        style="@android:style/Widget.Material.CompoundButton.Switch"
+        android:layout_width="112dp"
+        android:layout_height="37dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:checked="false"
+        android:onClick="enableDueDate"
+        android:switchTextAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:text="@string/due_date"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/add_list"
         android:layout_width="95dp"
         android:layout_height="51dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="44dp"
         android:layout_marginTop="8dp"
         android:onClick="addList"
         android:text="@string/add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listInput" />
+        app:layout_constraintTop_toBottomOf="@+id/datePicker" />
 
     <Button
         android:id="@+id/cancel_action"
         android:layout_width="91dp"
         android:layout_height="54dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:onClick="cancel"
         android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/AddTask"
-        app:layout_constraintHorizontal_bias="0.611"
+        app:layout_constraintEnd_toStartOf="@+id/add_list"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listInput" />
+        app:layout_constraintTop_toBottomOf="@+id/datePicker" />
 
     <EditText
         android:id="@+id/listInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/list_name"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintEnd_toStartOf="@+id/dueDateSwitch"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

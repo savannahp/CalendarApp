@@ -5,20 +5,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Home Activity
+ *
+ * This is the starting activity for the app. It invokes the Firebase UI Auth to
+ * securely sign a user in. It has the access buttons to navigate to different parts of the app
+ * and to sign the user out.
+ */
 public class HomeActivity extends AppCompatActivity {
 
     private static final String TAG = "HomeActivity";
@@ -27,6 +30,13 @@ public class HomeActivity extends AppCompatActivity {
 
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+    /**
+     * Overrides the onCreate for this activity. Insures that
+     * the data models have been initialized, or it invokes the
+     * sign in method to get the user first.
+     *
+     * @param savedInstanceState app's saved state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,26 +49,19 @@ public class HomeActivity extends AppCompatActivity {
             ListModel model = ListModel.getInstance();
             CalendarModel calendarModel = CalendarModel.getInstance();
         }
-
-
-
-        // Login with FirebaseAuth if there is no current user
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            List<AuthUI.IdpConfig> providers = Arrays.asList(
-                    new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build());
-
-            //Logs
-            Log.i(TAG, "Starting Login Activity");
-            // Create and launch sign-in intent
-            startActivityForResult(
-                    AuthUI.getInstance()
-                            .createSignInIntentBuilder()
-                            .setAvailableProviders(providers)
-                            .build(),
-                    RC_SIGN_IN);
-        }
+        else
+            signIn();
     }
 
+    /**
+     * This is for responding to the firebase sign in
+     * activity. Gets firebase user if the authentication
+     * was successful.
+     *
+     * @param requestCode What was requested
+     * @param resultCode The resulting code
+     * @param data data from the resulting activity
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -72,18 +75,14 @@ public class HomeActivity extends AppCompatActivity {
                 Log.i(TAG, "User Successfully signed in");
                 // To initialize the list model and get the data immediately
                 user = FirebaseAuth.getInstance().getCurrentUser();
-                ListModel model = ListModel.getInstance();
+                ListModel.getInstance().pullData();
+                CalendarModel.getInstance().pullData();
 
             } else {
                 Log.i(TAG, "User unable to sign in");
-                // Sign in failed, check response for error code TODO
+                Toast.makeText(this, "Error: Try logging in again", Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-    // TODO: Add stuff
-    void loadNav(View v) {
-
     }
 
     /**
@@ -104,5 +103,38 @@ public class HomeActivity extends AppCompatActivity {
     public void goToCalendar(View view) {
         Intent intent = new Intent(this, MonthActivity.class);
         startActivity(intent);
+    }
+
+    /**
+     * Function to call Firebase UI Auth to sign the user in
+     */
+    private void signIn() {
+        // Start sign in activity again
+        List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build());
+
+        //Logs
+        Log.i(TAG, "Starting Login Activity");
+        // Create and launch sign-in intent
+        startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setAvailableProviders(providers)
+                        .build(),
+                RC_SIGN_IN);
+    }
+
+    /**
+     * Sign the user out
+     * @param view a view
+     */
+    public void signOut(View view) {
+        AuthUI.getInstance()
+                .signOut(this);
+
+        ListModel.getInstance().reset();
+        CalendarModel.getInstance().reset();
+
+        signIn();
     }
 }

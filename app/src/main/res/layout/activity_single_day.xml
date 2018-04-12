@@ -7,10 +7,22 @@
     tools:context="teamproject.savannahpyle.calendarapp.SingleDayActivity">
 
     <include
+        android:id="@+id/includeRecyclerListItems"
+        layout="@layout/list_recycler_view"
+        android:layout_width="370dp"
+        android:layout_height="180dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewListItems" />
+
+    <include
         android:id="@+id/includeRecycler"
         layout="@layout/list_recycler_view"
-        android:layout_width="0dp"
-        android:layout_height="358dp"
+        android:layout_width="370dp"
+        android:layout_height="194dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -31,15 +43,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/includeRecycler"
-        app:layout_constraintVertical_bias="0.778" />
+        app:layout_constraintTop_toBottomOf="@+id/includeRecyclerListItems"
+        app:layout_constraintVertical_bias="0.0" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="4dp"
         android:clickable="true"
         android:onClick="addEvent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="4dp"
         android:text="Events List"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="18sp"
@@ -60,5 +72,19 @@
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewListItems"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Tasks Due"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/includeRecycler" />
 
 </android.support.constraint.ConstraintLayout>

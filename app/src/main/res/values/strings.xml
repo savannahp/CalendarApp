@@ -15,7 +15,7 @@
         completions."
     </string>
 
-    <string name="list_name">list name</string>
+    <string name="list_name">List Name</string>
     <string name="name_of_list">Name of List</string>
     <string name="task_name">Task Name</string>
     <string name="due_date">Due Date</string>

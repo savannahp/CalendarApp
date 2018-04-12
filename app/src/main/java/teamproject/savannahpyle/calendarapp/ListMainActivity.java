@@ -8,17 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+/**
+ * This is the main activity where user can see all of the lists created
+ */
 public class ListMainActivity extends AppCompatActivity {
     private final String TAG = "ListMainActivity";
-    public static final String EXTRA_MESSAGE = "teamproject.savannahpyle.calendarapp: ListMainActivity";
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;

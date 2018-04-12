@@ -1,17 +1,16 @@
 package teamproject.savannahpyle.calendarapp;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Created by savannahpyle on 3/21/18.
  *
- * Task List is a container for {@link Task} objects. This container
+ * ToDoList was a container for {@link Task} objects. This container
  * is basically a to-do list.
+ *
+ * Now this class just has a list of Strings to hold the various tasks
+ * that are to be done.
  *
  * @author Paul Land and Savannah Pyle
  */
@@ -22,35 +21,45 @@ public class ToDoList {
     private String firstTask = "Tap the '+' icon to add a task";
 
     private String listName;
+    private String dueDate; // mm/dd/yyyy
     private List<String> tasks;
     private List<Boolean> isComplete;
-    private List<String> dueDates;
+
 
     /**
      * Default constructor with no arguments for Firebase use.
      */
     public ToDoList() {
 
-        dueDates = new ArrayList<>();
+        listName = "";
+        dueDate = "";
+
         tasks = new ArrayList<>();
         isComplete = new ArrayList<>();
 
         // There must be something in these vars for it to work with firebase
         tasks.add(firstTask);
         isComplete.add(true);
-        dueDates.add(""); // Empty string means no due date
     }
 
     /**
      * Non-default constructor that takes a name and the list of tasks
      *
      * @param listName Name of the list
+     * @param dueDate String due date in MM/DD/YYYY format
      * @param tasks A list of tasks to add to this list
      * @param isComplete list of booleans of whether task is complete
      */
-    public ToDoList(String listName, List<String> tasks, List<Boolean> isComplete) {
+    public ToDoList(String listName, String dueDate, List<String> tasks, List<Boolean> isComplete) {
         if (listName != null)
             this.listName = listName;
+        else
+            this.listName = "";
+
+        if (dueDate != null)
+            this.dueDate = dueDate;
+        else
+            this.dueDate = "";
 
         if (tasks != null)
             this.tasks = tasks;
@@ -74,15 +83,29 @@ public class ToDoList {
      */
     public ToDoList(String listName) {
         this.listName = listName;
+        this.dueDate = "";
         tasks = new ArrayList<>();
-        dueDates = new ArrayList<>();
         isComplete = new ArrayList<>();
 
         // For firebase
         tasks.add(firstTask);
         isComplete.add(true);
-        dueDates.add(""); // empty string for no due date
+    }
 
+    /**
+     * Non-default constructor to set list name and due date
+     * @param listName name of the list
+     * @param dueDate string date in MM/DD/YYYY format
+     */
+    public ToDoList(String listName, String dueDate) {
+        this.listName = listName;
+        this.dueDate = dueDate;
+        tasks = new ArrayList<>();
+        isComplete = new ArrayList<>();
+
+        // For firebase
+        tasks.add(firstTask);
+        isComplete.add(true);
     }
 
     /**
@@ -101,39 +124,11 @@ public class ToDoList {
         if (tasks.size() == 1 && tasks.contains(firstTask)){
             tasks.clear();
             isComplete.clear();
-            dueDates.clear();
         }
 
         // Add description and set completion to false
         tasks.add(Description);
         isComplete.add(false);
-        dueDates.add("");
-    }
-
-    /**
-     * Adds a new task to this to-do list.
-     *
-     * @param Description Description of the new task being added
-     * @param date string due date for the task
-     */
-    public void addTask(String Description, String date) {
-
-        if (Description == null)
-            return;
-
-        // An initial to-do list sets the value of the first task to "" and
-        // the first isComplete to "true" so that it will be stored in firebase.
-        // We must clear those initial values.
-        if (tasks.size() == 1 && tasks.contains(firstTask)){
-            tasks.clear();
-            isComplete.clear();
-            dueDates.clear();
-        }
-
-        // Add description and set completion to false
-        tasks.add(Description);
-        isComplete.add(false);
-        dueDates.add(date);
     }
 
     /**
@@ -147,15 +142,12 @@ public class ToDoList {
             if (task.equals(tasks.get(i))) {
                 tasks.remove(i);
                 isComplete.remove(i);
-                dueDates.remove(i);
 
                 // For purpose of firebase storage
                 if (tasks.isEmpty()) {
                     tasks.add(firstTask);
                     isComplete.add(true);
-                    dueDates.add("");
                 }
-
                 break;
             }
         }
@@ -225,25 +217,24 @@ public class ToDoList {
             if (isComplete.get(i)) {
                 isComplete.remove(i);
                 tasks.remove(i);
-                dueDates.remove(i);
                 i--; // Since we've removed items we need the index to go back one
             }
         }
     }
 
     /**
-     * Getter for due date list
-     * @return the list of string due dates
+     * Getter for string due date
+     * @return string due date
      */
-    public List<String> getDueDates() {
-        return dueDates;
+    public String getDueDate() {
+        return dueDate;
     }
 
     /**
      * Sets the string of due dates
-     * @param dueDates list of string due dates
+     * @param dueDate list of string due dates
      */
-    public void setDueDates(List<String> dueDates) {
-        this.dueDates = dueDates;
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
     }
 }

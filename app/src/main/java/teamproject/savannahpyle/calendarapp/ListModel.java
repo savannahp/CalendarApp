@@ -1,7 +1,5 @@
 package teamproject.savannahpyle.calendarapp;
 
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -13,19 +11,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 // TODO: add these features to the list
 // Sort by due date, by priority level, by overdue
-// Delete completed tasks option/button
 
 /**
  * Created by paulland on 3/16/18.
@@ -33,7 +23,7 @@ import static com.firebase.ui.auth.AuthUI.getApplicationContext;
  * This class contains various Objects to model the data of
  * the to-do lists created by the user.
  *
- * It established a connection to the Firebase Database in
+ * It establishes a connection to the Firebase Database in
  * order to load and sync data for the list model.
  *
  * @author Paul Land
@@ -48,8 +38,7 @@ public class ListModel {
     public List<ToDoList> lists;
 
     // For accessing the Firebase Database
-    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    private DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference(user.getUid());
+    private DatabaseReference databaseRef;
 
     /**
      * Default constructor with no args required for Firebase Database.
@@ -58,7 +47,29 @@ public class ListModel {
     private ListModel() {
 
         lists = new ArrayList<>();
+        pullData();
+    }
 
+    /**
+     * Push updates to the firebase database
+     */
+    public void update() {
+        Log.d(TAG, "Updating database");
+        databaseRef.child(TAG).setValue(lists);
+        Log.d(TAG, "Database update complete");
+    }
+
+
+    /**
+     * Pull data from the data base
+     */
+    public void pullData() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        try {
+            databaseRef = FirebaseDatabase.getInstance().getReference(user.getUid());
+        } catch (NullPointerException np) {
+            Log.e(TAG, "ERROR: User is null: " + np.getMessage());
+        }
         // Listener for changes in the database
         ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -83,8 +94,8 @@ public class ListModel {
                     String name;
                     if (map.get("listName") == null)
                         ; // Purposely empty because
-                          // We don't want to add a ToDoList
-                          // with a null name.
+                        // We don't want to add a ToDoList
+                        // with a null name.
                     else {// Otherwise, we translate the map data to create a ToDoList
                         name = (String) map.get("listName");
 
@@ -102,10 +113,15 @@ public class ListModel {
                         else
                             tasks = null;
 
-                        lists.add(new ToDoList(name, tasks, bools));
+                        String dueDate;
+                        if (map.get("dueDate") != null)
+                            dueDate = (String) map.get("dueDate");
+                        else
+                            dueDate = null;
+
+                        lists.add(new ToDoList(name, dueDate, tasks, bools));
                     }
                 }
-
 
                 Log.d(TAG, "ListModel has been updated");
             }
@@ -119,12 +135,6 @@ public class ListModel {
 
         // Add the database listeners (I hope this works here *fingers crossed*)
         databaseRef.addListenerForSingleValueEvent(postListener);
-    }
-
-    public void update() {
-        Log.d(TAG, "Updating database");
-        databaseRef.child(TAG).setValue(lists);
-        Log.d(TAG, "Database update complete");
     }
 
     /**
@@ -159,25 +169,10 @@ public class ListModel {
     }
 
     /**
-     * Add a task to a list using the the TaskList's addTask()
-     * function.
-     *
-     * @param listName The name of the list to add task to
-     * @param description Description of the task
-     * @param date String due date of the task
+     * Clear the contents of our list
      */
-    public void addTask(String listName, String description, String date) {
-
-        ToDoList t = new ToDoList();
-
-        for (int i = 0; i < lists.size(); i++) {
-            t = lists.get(i);
-            if (t.getListName().equals(listName)) {
-                break;
-            }
-        }
-        t.addTask(description, date);
-        update();
+    public void reset() {
+        lists.clear();
     }
 
     /**
@@ -211,7 +206,46 @@ public class ListModel {
             t = lists.get(i);
 
             if (t.getListName().equals(listName)) {
-                // TODO: add toast saying list already exists
+                break;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Add a list with a due date
+     *
+     * @param listName Name of the list
+     * @param dueDate string date in MM/DD/YYYY format
+     * @return bool to let caller know if we added the list
+     */
+    public Boolean addList(String listName, String dueDate) {
+
+        // Initialize lists if this is the first to-do list
+        if (lists == null)
+            lists = new ArrayList<>();
+
+        ToDoList t;
+
+        // If lists doesn't contain the listName...
+        for (int i = 0; i <= lists.size(); i++) {
+            if (i == lists.size()) {
+
+                ToDoList toDoList = new ToDoList(listName);
+                t = new ToDoList(listName, dueDate);
+                lists.add(t);
+                Log.d(TAG, "To Do List added to model");
+
+                // Update branch in database with current lists value
+                update();
+
+                return true;
+            }
+
+            t = lists.get(i);
+
+            if (t.getListName().equals(listName)) {
                 break;
             }
         }
@@ -234,6 +268,22 @@ public class ListModel {
             }
         }
 
+        return null;
+    }
+
+    /**
+     * Returns to-do list associated with the string date.
+     *
+     * @param dueDate string due date in mm/dd/yyyy format
+     * @return The ToDoList associated with the dueDate or null if no list found
+     */
+    public ToDoList getToDoListByDate(String dueDate) {
+        ToDoList t;
+        for (int i = 0; i < lists.size(); i++) {
+            t = lists.get(i);
+            if (t.getDueDate().equals(dueDate))
+                return t;
+        }
         return null;
     }
 

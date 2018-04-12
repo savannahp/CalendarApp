@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 public class AddEventActivity extends AppCompatActivity {
 
+    private static final String TAG = "AddEventActivity";
+
     private String date;
     private int year;
     private int month;
@@ -36,6 +38,7 @@ public class AddEventActivity extends AppCompatActivity {
 
         setTitle(date);
 
+        Log.i(TAG, "AddEventActivity Created successfully");
     }
 
     /**

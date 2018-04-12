@@ -11,9 +11,9 @@ import android.widget.CheckBox;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.List;
-import java.util.Map;
-
+/**
+ * Activity that shows the contents of a single todolist
+ */
 public class SingleListActivity extends AppCompatActivity {
 
     private static final String TAG = "SingleListActivity";
@@ -46,12 +46,12 @@ public class SingleListActivity extends AppCompatActivity {
 
         Log.d(TAG, "intent.getStringExtra(Extra.LIST): " + listName);
 
-        // Sets the title of the activity to the name of current list
-        setTitle(listName);
-
         ListModel model = ListModel.getInstance();
 
         toDoList = model.getToDoList(listName);
+
+        // Sets the title of the activity to the name of current list
+        setTitle(listName + ": " + toDoList.getDueDate());
 
         Log.d(TAG, "toDoList = " + toDoList);
 
@@ -66,7 +66,7 @@ public class SingleListActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new CheckListAdapter(this.toDoList.getTasks(), this.toDoList.getDueDates(),this.toDoList.getIsComplete());
+        mAdapter = new CheckListAdapter(this.toDoList.getTasks(), this.toDoList.getIsComplete());
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -114,7 +114,7 @@ public class SingleListActivity extends AppCompatActivity {
      */
     public void removeTasks(View view) {
         toDoList.removeCompleted();
-        mAdapter = new CheckListAdapter(this.toDoList.getTasks(), this.toDoList.getDueDates(), this.toDoList.getIsComplete());
+        mAdapter = new CheckListAdapter(this.toDoList.getTasks(), this.toDoList.getIsComplete());
         mRecyclerView.setAdapter(mAdapter);
 
         // Update firebase

@@ -10,11 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+/**
+ * Shows all the events and todolists associated with this selected day
+ */
 public class SingleDayActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-
-    private TextView thedate;
     private Button btngocalendar;
     private String date;
     private int year;
@@ -24,6 +25,10 @@ public class SingleDayActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    private RecyclerView mRecyclerViewList;
+    private RecyclerView.Adapter mAdapterList;
+    private RecyclerView.LayoutManager mLayoutManagerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +73,38 @@ public class SingleDayActivity extends AppCompatActivity {
         mAdapter = new EventListAdapter(model.getEventList(date));
         mRecyclerView.setAdapter(mAdapter);
 
+        mRecyclerViewList = (RecyclerView) findViewById(R.id.includeRecyclerListItems);
+
+        Log.d(TAG, "Recycler List view =" + mRecyclerViewList.toString());
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerViewList.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManagerList = new LinearLayoutManager(this);
+        mRecyclerViewList.setLayoutManager(mLayoutManagerList);
+
+        ListModel listModel = ListModel.getInstance();
+
+        ToDoList tasks = listModel.getToDoListByDate(date);
+
+        if (tasks != null) {
+            // specify an adapter (see also next example)
+            mAdapterList = new CheckListAdapter(tasks.getTasks(), tasks.getIsComplete());
+
+            TextView text = findViewById(R.id.textViewListItems);
+            text.setText(tasks.getListName());
+        }
+        mRecyclerViewList.setAdapter(mAdapterList);
+
     }
 
+    /**
+     * Goes to the add event activity
+     *
+     * @param view add button
+     */
     public void addEvent(View view) {
 
         Intent intent = new Intent(this, AddEventActivity.class);

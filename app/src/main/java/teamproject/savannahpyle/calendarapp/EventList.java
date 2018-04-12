@@ -1,16 +1,19 @@
 package teamproject.savannahpyle.calendarapp;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Class to hold a list of events that happen
+ * on a specific date.
+ */
 public class EventList {
 
     public List<Event> eventList;
     public String date;
 
     public EventList() {
-        eventList = new LinkedList<>();
+        eventList = new ArrayList<>();
     }
 
     public EventList(String date) {
